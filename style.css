@@ -3,15 +3,17 @@
    Colors: Navy #03002B | Yellow #FFB600
    ============================================================ */
 
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
 :root {
   --navy:       #03002B;
-  --navy-light: #050347;
+  --navy-light: #05004a;
   --yellow:     #FFB600;
   --yellow-dark:#e6a400;
   --white:      #ffffff;
   --text:       #e8e8f0;
   --text-muted: #9090b0;
-  --text-dark:  #1a1a2e;
+  --text-dark:  #0a0820;
   --border:     rgba(255,182,0,0.15);
   --radius:     6px;
   --radius-lg:  10px;
@@ -49,7 +51,7 @@ a { color: inherit; text-decoration: none; }
   position: sticky;
   top: 0;
   z-index: 200;
-  background: var(--yellow);
+  background: #FFB600;
   height: var(--header-h);
   border-bottom: 3px solid var(--yellow-dark);
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -116,10 +118,11 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   width: 42px;
   height: 42px;
-  background: var(--text-dark);
+  background: var(--navy);
   border-radius: 8px;
   transition: transform 0.2s, background 0.2s;
-  overflow: hidden;
+  color: white;
+  font-size: 18px;
 }
 
 .social-icon:hover {
@@ -127,12 +130,9 @@ a { color: inherit; text-decoration: none; }
   background: #000;
 }
 
-.social-icon img,
-.social-icon svg {
-  width: 22px;
-  height: 22px;
-  fill: white;
+.social-icon i {
   color: white;
+  font-size: 18px;
 }
 
 /* Hamburger */
@@ -140,7 +140,7 @@ a { color: inherit; text-decoration: none; }
   display: none;
   flex-direction: column;
   gap: 5px;
-  background: var(--text-dark);
+  background: var(--navy);
   border: none;
   cursor: pointer;
   padding: 10px;
@@ -165,7 +165,7 @@ a { color: inherit; text-decoration: none; }
 .mobile-nav {
   display: none;
   flex-direction: column;
-  background: var(--yellow);
+  background: #FFB600;
   border-top: 2px solid var(--yellow-dark);
   padding: 8px 0 16px;
 }
@@ -444,9 +444,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
 }
 
-.post-body p {
-  margin-bottom: 20px;
-}
+.post-body p { margin-bottom: 20px; }
 
 .post-body h2 {
   font-family: var(--font-display);
@@ -507,7 +505,6 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255,182,0,0.06);
   border-radius: 0 var(--radius) var(--radius) 0;
   font-style: italic;
-  color: var(--text);
 }
 
 /* Post Share */
@@ -602,9 +599,7 @@ a { color: inherit; text-decoration: none; }
   object-fit: cover;
 }
 
-.related-card-body {
-  padding: 16px;
-}
+.related-card-body { padding: 16px; }
 
 .related-card-title {
   font-family: var(--font-display);
@@ -616,14 +611,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 .related-card-title a:hover { color: var(--yellow); }
-
-.related-card-date {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.related-card-date { font-size: 12px; color: var(--text-muted); }
 
 /* ============================================================
-   ABOUT PAGE
+   PAGE HERO (inner pages)
    ============================================================ */
 
 .page-hero {
@@ -654,6 +645,10 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.02em;
 }
 
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+
 .about-section {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -675,6 +670,10 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   aspect-ratio: 4/3;
   background: var(--navy-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
 }
 
 .about-photo img {
@@ -700,6 +699,13 @@ a { color: inherit; text-decoration: none; }
 
 .about-copy p strong { color: var(--white); }
 
+.about-ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
 .hosts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -720,6 +726,10 @@ a { color: inherit; text-decoration: none; }
   height: 300px;
   background: var(--navy);
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
 }
 
 .host-photo img {
@@ -729,18 +739,7 @@ a { color: inherit; text-decoration: none; }
   object-position: top center;
 }
 
-.host-photo-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 80px;
-}
-
-.host-info {
-  padding: 28px;
-}
+.host-info { padding: 28px; }
 
 .host-name {
   font-family: var(--font-display);
@@ -794,11 +793,7 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.7;
 }
 
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.contact-links { display: flex; flex-direction: column; gap: 10px; }
 
 .contact-link {
   display: flex;
@@ -819,17 +814,9 @@ a { color: inherit; text-decoration: none; }
   color: var(--yellow);
 }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.form-group { display: flex; flex-direction: column; gap: 8px; }
 
 .form-group label {
   font-size: 12px;
@@ -857,15 +844,9 @@ a { color: inherit; text-decoration: none; }
 .form-group textarea::placeholder { color: var(--text-muted); }
 
 .form-group input:focus,
-.form-group textarea:focus {
-  border-color: var(--yellow);
-}
+.form-group textarea:focus { border-color: var(--yellow); }
 
-.form-note {
-  font-size: 14px;
-  color: var(--yellow);
-  margin-top: -8px;
-}
+.form-note { font-size: 14px; color: var(--yellow); margin-top: -8px; }
 
 /* ============================================================
    BUTTONS
@@ -901,7 +882,7 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 
 .site-footer {
-  background: var(--yellow);
+  background: #FFB600;
   padding: 0;
 }
 
@@ -954,9 +935,11 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: var(--text-dark);
+  background: var(--navy);
   border-radius: 6px;
   transition: transform 0.2s, background 0.2s;
+  color: white;
+  font-size: 16px;
 }
 
 .footer-social-icon:hover {
@@ -964,11 +947,7 @@ a { color: inherit; text-decoration: none; }
   background: #000;
 }
 
-.footer-social-icon svg {
-  width: 18px;
-  height: 18px;
-  fill: white;
-}
+.footer-social-icon i { color: white; }
 
 .footer-col h4 {
   font-size: 11px;
@@ -1003,7 +982,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ============================================================
-   PAGE TRANSITIONS
+   ANIMATIONS
    ============================================================ */
 
 .fade-in {
@@ -1015,9 +994,6 @@ a { color: inherit; text-decoration: none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ============================================================
-   FUTURE POST HIDDEN STATE
-   ============================================================ */
 .post-scheduled { display: none !important; }
 
 /* ============================================================
@@ -1028,7 +1004,6 @@ a { color: inherit; text-decoration: none; }
   .header-nav { display: none; }
   .header-social { display: none; }
   .hamburger { display: flex; }
-  --header-h: 72px;
 
   .hero {
     flex-direction: column;
@@ -1037,13 +1012,9 @@ a { color: inherit; text-decoration: none; }
   }
 
   .spotify-player { max-width: 100%; width: 100%; }
-
   .swoosh-text { font-size: 28px; }
 
-  .footer-inner {
-    grid-template-columns: 1fr 1fr;
-  }
-
+  .footer-inner { grid-template-columns: 1fr 1fr; }
   .about-intro { grid-template-columns: 1fr; }
   .hosts-grid { grid-template-columns: 1fr; }
   .contact-section { grid-template-columns: 1fr; }
@@ -1052,25 +1023,12 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 600px) {
   :root { --header-h: 64px; }
-
   .site-logo img { height: 44px; }
 
-  .post-item {
-    flex-direction: column;
-    gap: 16px;
-  }
+  .post-item { flex-direction: column; gap: 16px; }
+  .post-thumb { width: 100%; height: 200px; }
 
-  .post-thumb {
-    width: 100%;
-    height: 200px;
-  }
-
-  .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .related-grid { grid-template-columns: 1fr; }
-
   .swoosh-text { font-size: 22px; padding: 10px 24px; }
 }
