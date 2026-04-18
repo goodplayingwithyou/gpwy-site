@@ -8,7 +8,7 @@
 // 4. Save and upload to GitHub
 // ============================================================
 
-const POSTS = [
+var POSTS = [
   {
     id: "slay-the-spire-2-should-you-play-now-or-wait",
     title: "Slay the Spire 2\u2014 Should You Play Now or Wait?",
