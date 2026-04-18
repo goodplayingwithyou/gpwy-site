@@ -39,7 +39,16 @@ function parseDate(str) {
 
 function isFuture(dateStr) {
   if (!dateStr) return false;
-  return parseDate(dateStr) > new Date();
+  try {
+    const d = new Date(dateStr);
+    // If date is invalid, show the post
+    if (isNaN(d.getTime())) return false;
+    const now = new Date();
+    // Compare date only (not time) to avoid timezone issues
+    const postDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return postDate > today;
+  } catch(e) { return false; }
 }
 
 function formatDisplayDate(dateStr) {
