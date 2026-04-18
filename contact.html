@@ -22,7 +22,6 @@
         <a href="index.html">Home</a>
         <a href="blog.html">Blog</a>
         <a href="about.html">About</a>
-        <a href="contact.html" class="active">Contact</a>
       </nav>
       <div class="header-social">
         <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
@@ -56,32 +55,35 @@
   <section class="contact-section fade-in">
     <div class="contact-info">
       <h3>Say Hello</h3>
-      <p>Have a hot take? Want to be a guest? Question for the show? We'd love to hear from you.</p>
+      <p>Have a hot take? Want to be a guest? Interested in sponsoring the show? We'd love to hear from you.</p>
       <div class="contact-links">
         <a href="https://x.com/goodplaywithyou" target="_blank" class="contact-link">
-          <i class="fa-brands fa-x-twitter"></i>
-          <span>@goodplaywithyou</span>
+          <i class="fa-brands fa-x-twitter"></i><span>@goodplaywithyou</span>
         </a>
         <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" class="contact-link">
-          <i class="fa-brands fa-instagram"></i>
-          <span>@goodplayingwithyou</span>
+          <i class="fa-brands fa-instagram"></i><span>@goodplayingwithyou</span>
         </a>
         <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="contact-link">
-          <i class="fa-brands fa-youtube"></i>
-          <span>YouTube</span>
+          <i class="fa-brands fa-youtube"></i><span>YouTube</span>
         </a>
         <a href="https://www.buymeacoffee.com/GPWY" target="_blank" class="contact-link">
-          <i class="fa-solid fa-mug-hot"></i>
-          <span>Buy Us a Coffee</span>
+          <i class="fa-solid fa-mug-hot"></i><span>Buy Us a Coffee</span>
         </a>
         <a href="https://linktr.ee/goodplayingwithyou" target="_blank" class="contact-link">
-          <i class="fa-solid fa-link"></i>
-          <span>LinkTree</span>
+          <i class="fa-solid fa-link"></i><span>LinkTree</span>
         </a>
       </div>
     </div>
 
-    <form class="contact-form" onsubmit="handleContact(event)">
+    <!--
+      FORMSPREE SETUP:
+      1. Go to formspree.io — sign up free
+      2. Click "New Form"
+      3. Copy your form endpoint (https://formspree.io/f/XXXXXXXX)
+      4. Replace YOUR_FORMSPREE_ID below with your actual ID
+    -->
+    <form class="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+      <input type="hidden" name="_subject" value="New message from GPWY website" />
       <div class="form-group">
         <label for="name">Your Name</label>
         <input type="text" id="name" name="name" placeholder="Player One" required />
@@ -99,7 +101,6 @@
         <textarea id="message" name="message" rows="6" placeholder="Share your thoughts on gaming and the latest podcast episodes..." required></textarea>
       </div>
       <button type="submit" class="btn btn-primary">Send Message</button>
-      <p class="form-note" id="formNote"></p>
     </form>
   </section>
 
