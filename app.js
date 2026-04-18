@@ -59,10 +59,10 @@ function formatDisplayDate(dateStr) {
   } catch(e) { return dateStr; }
 }
 
-// ── Get visible posts (not future-dated) ─────────────────────
+// ── Get visible posts ─────────────────────────────────────
 function getVisiblePosts() {
   if (!window.POSTS) return [];
-  return POSTS.filter(p => !isFuture(p.date));
+  return POSTS;
 }
 
 // ── Post Card HTML ────────────────────────────────────────────
