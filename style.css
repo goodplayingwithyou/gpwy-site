@@ -816,6 +816,17 @@ a { color: inherit; text-decoration: none; }
 .footer-divider {
   width: 100%;
   height: 60px;
+  background: #e6a400;
+  position: relative;
+}
+
+.footer-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: var(--navy);
   clip-path: polygon(0 0, 100% 0, 100% 40%, 0 100%);
 }
