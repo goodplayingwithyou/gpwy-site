@@ -82,14 +82,13 @@ function postItemHTML(post) {
         ${thumb}
       </a>
       <div class="post-info">
+        <div class="post-date-line">${post.date || ''}${post.author ? ' &bull; by ' + post.author : ''}</div>
         <h2 class="post-title">
           <a href="post.html?id=${post.id}">${post.title}</a>
         </h2>
         ${excerpt}
         <div class="post-meta">
           <a href="post.html?id=${post.id}" class="read-more">Read More →</a>
-          <time class="post-date">${post.date || ''}</time>
-          ${post.author ? `<span class="post-author">by ${post.author}</span>` : ''}
         </div>
       </div>
     </article>
@@ -163,10 +162,9 @@ function initPost() {
   container.innerHTML = `
     <div class="post-page">
       <a href="blog.html" class="back-to-blog">← Back to Blog</a>
+      <div class="post-page-eyebrow">${post.date || ''}${post.author ? ' &bull; Written by ' + post.author : ''}</div>
       <h1 class="post-page-title">${post.title}</h1>
       <div class="post-page-meta">
-        <time>${post.date || ''}</time>
-        ${post.author ? `<span class="meta-author">by <strong>${post.author}</strong></span>` : ''}
         ${tagsHTML}
       </div>
       ${youtubeHTML}
