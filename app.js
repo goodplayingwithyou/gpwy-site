@@ -148,6 +148,18 @@ function initPost() {
   // Content
   const content = post.content || '';
 
+  // YouTube embed
+  const youtubeHTML = post.youtubeId
+    ? `<div class="post-video">
+        <iframe src="https://www.youtube.com/embed/${post.youtubeId}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          title="${post.title}">
+        </iframe>
+      </div>`
+    : '';
+
   container.innerHTML = `
     <div class="post-page">
       <a href="blog.html" class="back-to-blog">← Back to Blog</a>
@@ -157,6 +169,7 @@ function initPost() {
         ${post.author ? `<span class="meta-author">by <strong>${post.author}</strong></span>` : ''}
         ${tagsHTML}
       </div>
+      ${youtubeHTML}
       <div class="post-body">
         ${content}
       </div>
