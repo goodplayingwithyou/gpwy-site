@@ -827,13 +827,13 @@
 
     // ══════════════════════════════════════════════════════════
     // X / TWITTER TIMELINE EMBED
-    // Uses official publish.x.com embed — no API key needed.
-    // Falls back to a follow card after 8 seconds if blocked.
+    // Uses twttr.widgets.createTimeline (programmatic API) —
+    // more reliable than the declarative anchor approach.
+    // Falls back to a follow card after 10s if blocked/throttled.
     // ══════════════════════════════════════════════════════════
 
     (function initXFeed() {
-      const wrap    = document.getElementById('xFeedWrap');
-      const loading = document.getElementById('xLoading');
+      const wrap = document.getElementById('xFeedWrap');
       if (!wrap) return;
 
       let settled = false;
@@ -856,45 +856,58 @@
           </div>`;
       }
 
-      // Inject the official timeline anchor
-      const anchor = document.createElement('a');
-      anchor.className        = 'twitter-timeline';
-      anchor.href             = 'https://twitter.com/goodplaywithyou';
-      anchor.dataset.theme    = 'dark';
-      anchor.dataset.chrome   = 'noheader nofooter noborders transparent';
-      anchor.dataset.tweetLimit = '6';
-      anchor.dataset.dnt      = 'true';
-      anchor.textContent      = 'Tweets by @goodplaywithyou';
-      wrap.appendChild(anchor);
+      function renderTimeline() {
+        if (!window.twttr?.widgets?.createTimeline) {
+          showXFallback();
+          return;
+        }
 
-      // Load widgets.js dynamically
-      const script = document.createElement('script');
-      script.src   = 'https://platform.twitter.com/widgets.js';
-      script.async = true;
-      script.charset = 'utf-8';
+        // Clear the loading spinner, give twttr a clean target div
+        wrap.innerHTML = '<div id="xTimelineTarget"></div>';
+        const target = document.getElementById('xTimelineTarget');
 
-      script.onload = () => {
-        if (!window.twttr?.widgets) { showXFallback(); return; }
-
-        // Ask the widget to render the anchor we injected
-        window.twttr.widgets.load(wrap);
-
-        // twttr fires 'rendered' once the iframe appears
-        window.twttr.events.bind('rendered', widget => {
-          if (!settled) {
+        // Watch for an iframe appearing — that means it worked
+        const observer = new MutationObserver(() => {
+          if (target.querySelector('iframe') && !settled) {
             settled = true;
-            if (loading) loading.remove();
+            observer.disconnect();
           }
         });
-      };
+        observer.observe(target, { childList: true, subtree: true });
 
-      script.onerror = () => showXFallback();
+        // Programmatic API — more reliable than the anchor approach
+        window.twttr.widgets.createTimeline(
+          { sourceType: 'profile', screenName: 'goodplaywithyou' },
+          target,
+          {
+            theme:       'dark',
+            chrome:      'noheader nofooter noborders transparent',
+            dnt:         true,
+            tweetLimit:  6
+          }
+        ).then(el => {
+          observer.disconnect();
+          if (el && !settled) {
+            settled = true;
+          } else if (!el && !settled) {
+            // Promise resolved but returned nothing = blocked
+            showXFallback();
+          }
+        }).catch(() => showXFallback());
+      }
+
+      // Load widgets.js dynamically
+      const script    = document.createElement('script');
+      script.src      = 'https://platform.twitter.com/widgets.js';
+      script.async    = true;
+      script.charset  = 'utf-8';
+      script.onload   = () => renderTimeline();
+      script.onerror  = () => showXFallback();
       document.head.appendChild(script);
 
-      // Hard timeout — if nothing renders in 8 seconds, show fallback
-      setTimeout(() => {
-        if (!settled) showXFallback();
-      }, 8000);
+      // Hard timeout — 10s covers slow connections;
+      // if X is actively blocking, nothing will load regardless
+      setTimeout(() => { if (!settled) showXFallback(); }, 10000);
     })();
 
     // ── Hamburger menu ────────────────────────────────────────
