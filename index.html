@@ -241,6 +241,119 @@
       font-weight: 700;
     }
     .insta-fallback-body p strong { color: #fff; }
+
+    /* ══════════════════════════════════════════════════════
+       MODAL / LIGHTBOX
+       ══════════════════════════════════════════════════════ */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3,0,43,0.93);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: modalFadeIn 0.2s ease;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .modal-inner {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      animation: modalSlideUp 0.25s ease;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: -46px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 8px;
+      opacity: 0.75;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 10;
+    }
+    .modal-close:hover { opacity: 1; transform: scale(1.15); }
+
+    /* Video embed wrapper */
+    .modal-embed {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-embed .instagram-media {
+      margin: 0 !important;
+      min-width: 100% !important;
+    }
+    .modal-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 60px 20px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .modal-loading i { font-size: 1.8rem; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Image lightbox */
+    .modal-img-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      line-height: 0;
+    }
+    .modal-img-wrap img {
+      width: 100%;
+      max-height: 78vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Caption + link below modal */
+    .modal-footer {
+      margin-top: 14px;
+      text-align: center;
+    }
+    .modal-caption {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .modal-ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #e6a400;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .modal-ig-link:hover { opacity: 0.75; }
   </style>
 </head>
 <body>
@@ -406,14 +519,14 @@
     //
     // ════════════════════════════════════════════════════════════
 
-    const BEHOLD_FEED_URL = 'https://feeds.behold.so/zXK2U4t1LAZt4LiDlWlB'; // ← PASTE YOUR URL HERE
+    const BEHOLD_FEED_URL = 'https://feeds.behold.so/zXK2U4t1LAZt4LiDlWlB';
 
-    // Number of posts to display (max 9 looks best in 3-col grid)
-    const INSTA_POST_COUNT = 9;
-
-    // ── Instagram feed renderer ───────────────────────────────
+    // 6 posts fills the 2-column portrait grid perfectly (3 rows)
+    const INSTA_POST_COUNT = 6;
 
     const instaContent = document.getElementById('instaContent');
+
+    // ── Loading / fallback states ─────────────────────────────
 
     function showInstaLoading() {
       const skeletons = Array.from({length: INSTA_POST_COUNT}, () =>
@@ -442,20 +555,15 @@
         </div>`;
     }
 
+    // ── Helpers ───────────────────────────────────────────────
+
     function buildMediaUrl(post) {
-      // Prefer Behold's own CDN (sizes.medium) — stable, no expiry, no CORS issues.
-      // Fall back to Instagram CDN thumbnailUrl only if Behold sizes aren't present.
+      // Use Behold's own CDN for thumbnails — stable, no expiry, no CORS issues
       return post.sizes?.medium?.mediaUrl
           || post.sizes?.small?.mediaUrl
           || post.thumbnailUrl
           || post.mediaUrl
           || '';
-    }
-
-    function buildTypeIcon(post) {
-      if (post.mediaType === 'VIDEO')          return '<i class="fa-solid fa-film insta-post-type" title="Reel"></i>';
-      if (post.mediaType === 'CAROUSEL_ALBUM') return '<i class="fa-solid fa-images insta-post-type" title="Album"></i>';
-      return '';
     }
 
     function truncateCaption(caption, maxLen = 80) {
@@ -464,38 +572,37 @@
       return clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean;
     }
 
+    // ── Grid renderer ─────────────────────────────────────────
+
     function renderInstaGrid(posts) {
       const limited = posts.slice(0, INSTA_POST_COUNT);
+      if (limited.length === 0) { showInstaFallback('empty'); return; }
 
-      if (limited.length === 0) {
-        showInstaFallback('empty feed');
-        return;
-      }
+      // Store globally so modal can look up full post data by index
+      window._instaPosts = limited;
 
-      const items = limited.map(post => {
+      const items = limited.map((post, idx) => {
         const imgUrl  = buildMediaUrl(post);
         const caption = truncateCaption(post.prunedCaption || post.caption);
-        const typeIcon = buildTypeIcon(post);
-        const link    = post.permalink || 'https://www.instagram.com/goodplayingwithyou/';
+        const isVideo = post.mediaType === 'VIDEO' || post.isReel;
+        const isAlbum = post.mediaType === 'CAROUSEL_ALBUM';
+        const label   = isVideo ? 'Watch Reel' : isAlbum ? 'View Album' : 'View Post';
 
         return `
           <a class="insta-post"
-             href="${link}"
-             target="_blank"
-             rel="noopener"
-             aria-label="View Instagram post">
-            <img src="${imgUrl}"
-                 alt="${caption || 'Instagram post'}"
-                 loading="lazy" />
-            ${typeIcon}
-            <div class="insta-post-overlay">
-              ${caption ? `<p class="insta-post-caption">${caption}</p>` : ''}
-            </div>
+             href="${post.permalink}"
+             data-idx="${idx}"
+             aria-label="${label}: ${caption || 'Instagram post'}">
+            <img src="${imgUrl}" alt="${caption || 'Instagram post'}" loading="lazy" />
+            <span class="insta-watch-label">${label}</span>
+            ${isVideo ? `<div class="insta-play-btn"><i class="fa-solid fa-play"></i></div>` : ''}
+            ${isAlbum ? `<div class="insta-play-btn"><i class="fa-solid fa-images"></i></div>` : ''}
+            ${caption  ? `<p class="insta-post-caption">${caption}</p>` : ''}
           </a>`;
       }).join('');
 
       instaContent.innerHTML = `
-        <div class="insta-grid">${items}</div>
+        <div class="insta-grid" id="instaGrid">${items}</div>
         <div class="insta-follow-bar">
           <a class="btn-follow-insta"
              href="https://www.instagram.com/goodplayingwithyou/"
@@ -503,33 +610,150 @@
             <i class="fa-brands fa-instagram"></i> Follow on Instagram
           </a>
         </div>`;
+
+      // Intercept all grid clicks — open modal instead of navigating away
+      document.getElementById('instaGrid').addEventListener('click', e => {
+        const postEl = e.target.closest('.insta-post');
+        if (!postEl) return;
+        e.preventDefault();
+        openInstaModal(window._instaPosts[parseInt(postEl.dataset.idx, 10)]);
+      });
     }
 
+    // ── Fetch feed ────────────────────────────────────────────
+
     async function loadInstaFeed() {
-      // No URL configured yet — show fallback immediately
-      if (!BEHOLD_FEED_URL || BEHOLD_FEED_URL.trim() === '') {
+      if (!BEHOLD_FEED_URL || !BEHOLD_FEED_URL.trim()) {
         showInstaFallback('not configured');
         return;
       }
-
       showInstaLoading();
-
       try {
         const res = await fetch(BEHOLD_FEED_URL);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        // Behold returns { username, posts: [...] } — not a bare array
+        // Behold returns { username, posts:[...] } — not a bare array
         const posts = Array.isArray(data) ? data : (data.posts || []);
-        if (!posts.length) throw new Error('No posts returned');
+        if (!posts.length) throw new Error('No posts');
         renderInstaGrid(posts);
       } catch (err) {
         console.warn('Instagram feed failed:', err.message);
-        showInstaFallback('fetch error');
+        showInstaFallback('error');
       }
     }
 
-    // Load Instagram feed on page ready
     loadInstaFeed();
+
+    // ══════════════════════════════════════════════════════════
+    // MODAL SYSTEM
+    // Videos → Instagram official embed (real playback)
+    // Images → full-size lightbox
+    // ══════════════════════════════════════════════════════════
+
+    let embedJsLoaded = false;
+
+    function loadEmbedJs() {
+      return new Promise(resolve => {
+        // Already loaded
+        if (window.instgrm || embedJsLoaded) { resolve(); return; }
+        const s = document.createElement('script');
+        s.src = 'https://www.instagram.com/embed.js';
+        s.async = true;
+        s.onload  = () => { embedJsLoaded = true; resolve(); };
+        s.onerror = () => resolve(); // fail silently, fallback link shown
+        document.head.appendChild(s);
+      });
+    }
+
+    function openInstaModal(post) {
+      const isVideo = post.mediaType === 'VIDEO' || post.isReel;
+      const caption = truncateCaption(post.prunedCaption || post.caption, 120);
+      const igLink  = post.permalink;
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'modal-backdrop';
+      backdrop.id = 'instaModal';
+
+      if (isVideo) {
+        // ── Video: Instagram official embed ─────────────────
+        backdrop.innerHTML = `
+          <div class="modal-inner">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <div class="modal-embed" id="modalEmbed">
+              <div class="modal-loading">
+                <i class="fa-solid fa-circle-notch"></i>
+                Loading reel…
+              </div>
+            </div>
+            <div class="modal-footer">
+              ${caption ? `<p class="modal-caption">${caption}</p>` : ''}
+              <a class="modal-ig-link" href="${igLink}" target="_blank" rel="noopener">
+                <i class="fa-brands fa-instagram"></i> Open on Instagram
+              </a>
+            </div>
+          </div>`;
+
+        document.body.appendChild(backdrop);
+
+        // Load embed.js then inject the official Instagram embed blockquote
+        loadEmbedJs().then(() => {
+          const wrap = document.getElementById('modalEmbed');
+          if (!wrap) return;
+          wrap.innerHTML = `
+            <blockquote class="instagram-media"
+              data-instgrm-permalink="${igLink}"
+              data-instgrm-version="14"
+              style="margin:0;min-width:326px;max-width:100%;width:calc(100% - 2px);">
+            </blockquote>`;
+          // Tell Instagram's script to render the new embed
+          if (window.instgrm?.Embeds?.process) {
+            window.instgrm.Embeds.process();
+          }
+        });
+
+      } else {
+        // ── Image: simple lightbox ──────────────────────────
+        const imgUrl = post.sizes?.large?.mediaUrl
+                    || post.sizes?.medium?.mediaUrl
+                    || buildMediaUrl(post);
+        backdrop.innerHTML = `
+          <div class="modal-inner">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <div class="modal-img-wrap">
+              <img src="${imgUrl}" alt="${caption || 'Instagram post'}" />
+            </div>
+            <div class="modal-footer">
+              ${caption ? `<p class="modal-caption">${caption}</p>` : ''}
+              <a class="modal-ig-link" href="${igLink}" target="_blank" rel="noopener">
+                <i class="fa-brands fa-instagram"></i> Open on Instagram
+              </a>
+            </div>
+          </div>`;
+
+        document.body.appendChild(backdrop);
+      }
+
+      // Lock scroll
+      document.body.style.overflow = 'hidden';
+
+      // Close on backdrop click
+      backdrop.addEventListener('click', e => {
+        if (e.target === backdrop) closeInstaModal();
+      });
+
+      // Close on × button
+      backdrop.querySelector('.modal-close').addEventListener('click', closeInstaModal);
+    }
+
+    function closeInstaModal() {
+      const m = document.getElementById('instaModal');
+      if (m) { m.remove(); document.body.style.overflow = ''; }
+    }
+
+    // ESC key closes modal
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeInstaModal();
+    });
 
     // ── Hamburger menu ────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
