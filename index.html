@@ -19,21 +19,15 @@
 
   <style>
     /* ── Spotify player — big version ───────────────────── */
-    .spotify-player iframe {
-      height: 352px !important;
-    }
+    .spotify-player iframe { height: 352px !important; }
 
-    /* ── Footer yellow fix ──────────────────────────────── */
-    /* Override any clip-path tint that makes the footer
-       look darker/different from the header yellow */
-    .site-footer {
-      background: #e6a400 !important;
-    }
-    .footer-divider {
-      display: none !important;
-    }
+    /* ── Footer fix ─────────────────────────────────────── */
+    .footer-divider { display: none !important; }
+    .site-footer,
+    .footer-inner,
+    .footer-bottom { background: #e6a400 !important; }
 
-    /* ── Social Feeds Section ───────────────────────────── */
+    /* ── Social Feeds layout ─────────────────────────────── */
     .social-feeds {
       max-width: 1100px;
       margin: 0 auto;
@@ -47,6 +41,7 @@
       .social-feeds { grid-template-columns: 1fr; padding: 32px 16px 48px; }
     }
 
+    /* ── Shared panel ────────────────────────────────────── */
     .feed-panel {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.1);
@@ -71,14 +66,143 @@
       color: #fff;
     }
 
-    /* X / Twitter feed */
+    /* ── X / Twitter ─────────────────────────────────────── */
     .twitter-feed-wrap {
       min-height: 500px;
       max-height: 580px;
       overflow: hidden;
     }
 
-    /* Instagram card */
+    /* ══════════════════════════════════════════════════════
+       INSTAGRAM FEED (Behold JSON)
+       ══════════════════════════════════════════════════════ */
+
+    /* Grid of posts */
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background: #000;
+    }
+
+    .insta-post {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .insta-post img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .insta-post:hover img { transform: scale(1.06); }
+
+    /* Hover overlay with caption */
+    .insta-post-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(3,0,43,0.92) 0%, rgba(3,0,43,0.4) 60%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+    }
+    .insta-post:hover .insta-post-overlay { opacity: 1; }
+
+    .insta-post-caption {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Reel / video badge */
+    .insta-post-type {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      font-size: 0.7rem;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+    }
+
+    /* Follow bar below the grid */
+    .insta-follow-bar {
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .btn-follow-insta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.92rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-follow-insta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── Loading skeleton ─────────────────────────────────── */
+    .insta-loading {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background: #000;
+    }
+    .insta-skeleton {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.06);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 0.9; }
+    }
+
+    /* ── Error / no-config state ──────────────────────────── */
+    .insta-error {
+      padding: 32px 24px;
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+    }
+    .insta-error i {
+      font-size: 2rem;
+      color: rgba(255,255,255,0.2);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .insta-error p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    /* ── Fallback CTA (shown only when feed fails) ─────────── */
+    .insta-fallback { display: none; }
+    .insta-fallback.visible { display: block; }
+
     .insta-gradient {
       background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
       padding: 36px 24px;
@@ -103,53 +227,20 @@
       font-size: 0.92rem;
       font-weight: 700;
     }
-    .insta-body {
-      padding: 24px;
+    .insta-fallback-body {
+      padding: 20px 24px 24px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
-    .insta-body p {
+    .insta-fallback-body p {
       font-family: 'Nunito', sans-serif;
       color: rgba(255,255,255,0.6);
-      font-size: 0.93rem;
+      font-size: 0.9rem;
       line-height: 1.6;
       font-weight: 700;
     }
-    .insta-body p strong { color: #fff; }
-    .insta-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .insta-tag {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 5px 13px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: rgba(255,255,255,0.7);
-      letter-spacing: 0.04em;
-    }
-    .btn-follow-insta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      padding: 13px 20px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-      color: #fff;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 900;
-      font-size: 0.95rem;
-      letter-spacing: 0.03em;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-    .btn-follow-insta:hover { opacity: 0.85; transform: translateY(-1px); }
+    .insta-fallback-body p strong { color: #fff; }
   </style>
 </head>
 <body>
@@ -230,31 +321,17 @@
       </div>
     </div>
 
-    <!-- Instagram Follow Card -->
-    <div class="feed-panel">
+    <!-- Instagram Feed -->
+    <div class="feed-panel" id="instaPanel">
       <div class="feed-panel-header">
         <i class="fa-brands fa-instagram"></i>
         <span>@goodplayingwithyou</span>
       </div>
-      <div class="insta-gradient">
-        <i class="fa-brands fa-instagram"></i>
-        <h3>Find Us On Instagram</h3>
-        <p>Episode clips, gaming highlights &amp; more</p>
-      </div>
-      <div class="insta-body">
-        <p>We post <strong>episode highlights, gaming clips,</strong> and behind-the-scenes content. Follow us to stay in the loop between Friday episodes.</p>
-        <div class="insta-tags">
-          <span class="insta-tag">🎮 Gaming</span>
-          <span class="insta-tag">🎙 Podcast Clips</span>
-          <span class="insta-tag">🔥 Hot Takes</span>
-          <span class="insta-tag">📺 Reviews</span>
-        </div>
-        <a class="btn-follow-insta" href="https://www.instagram.com/goodplayingwithyou/" target="_blank">
-          <i class="fa-brands fa-instagram"></i> Follow on Instagram
-        </a>
-      </div>
-    </div>
 
+      <!-- Content swapped by JS: loading → grid or fallback -->
+      <div id="instaContent"></div>
+
+    </div>
   </div>
 
   <!-- FOOTER -->
@@ -302,6 +379,161 @@
 
   <!-- Twitter/X Widget -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <script>
+    // ════════════════════════════════════════════════════════════
+    // INSTAGRAM CONFIG — PASTE YOUR BEHOLD FEED URL HERE
+    // ════════════════════════════════════════════════════════════
+    //
+    // HOW TO GET YOUR BEHOLD FEED URL (takes ~10 minutes):
+    //
+    //   1. Go to behold.so → Sign up free
+    //   2. Click "Add Source" → choose Instagram
+    //   3. Connect your Instagram Business account
+    //      (@goodplayingwithyou) via their OAuth login
+    //   4. Once connected, click "Add Feed"
+    //   5. Choose "JSON Feed" as the output type
+    //      (NOT the embed widget — we want the raw JSON URL)
+    //   6. Name it anything, e.g. "GPWY Website"
+    //   7. Copy the Feed URL — looks like:
+    //      https://feeds.behold.so/AbCdEf1234567890AbCd
+    //   8. Paste that URL below, replacing the empty string
+    //
+    // COST: Free tier is sufficient. No credit card needed.
+    // TOKENS: Behold stores your Instagram token on their servers.
+    //         Nothing secret goes in this file.
+    // AUTO-REFRESH: Behold refreshes your token automatically.
+    //
+    // ════════════════════════════════════════════════════════════
+
+    const BEHOLD_FEED_URL = 'https://feeds.behold.so/zXK2U4t1LAZt4LiDlWlB'; // ← PASTE YOUR URL HERE
+
+    // Number of posts to display (max 9 looks best in 3-col grid)
+    const INSTA_POST_COUNT = 9;
+
+    // ── Instagram feed renderer ───────────────────────────────
+
+    const instaContent = document.getElementById('instaContent');
+
+    function showInstaLoading() {
+      const skeletons = Array.from({length: INSTA_POST_COUNT}, () =>
+        '<div class="insta-skeleton"></div>'
+      ).join('');
+      instaContent.innerHTML = `<div class="insta-loading">${skeletons}</div>`;
+    }
+
+    function showInstaFallback(reason) {
+      instaContent.innerHTML = `
+        <div class="insta-fallback visible">
+          <div class="insta-gradient">
+            <i class="fa-brands fa-instagram"></i>
+            <h3>Find Us On Instagram</h3>
+            <p>Episode clips, gaming highlights &amp; more</p>
+          </div>
+          <div class="insta-fallback-body">
+            <p>We post <strong>episode highlights, gaming clips,</strong> and
+               behind-the-scenes content. Follow us for the latest.</p>
+            <a class="btn-follow-insta"
+               href="https://www.instagram.com/goodplayingwithyou/"
+               target="_blank">
+              <i class="fa-brands fa-instagram"></i> Follow on Instagram
+            </a>
+          </div>
+        </div>`;
+    }
+
+    function buildMediaUrl(post) {
+      // Reels and videos use thumbnailUrl; images use mediaUrl
+      return post.thumbnailUrl || post.mediaUrl || '';
+    }
+
+    function buildTypeIcon(post) {
+      if (post.mediaType === 'VIDEO')          return '<i class="fa-solid fa-film insta-post-type" title="Reel"></i>';
+      if (post.mediaType === 'CAROUSEL_ALBUM') return '<i class="fa-solid fa-images insta-post-type" title="Album"></i>';
+      return '';
+    }
+
+    function truncateCaption(caption, maxLen = 80) {
+      if (!caption) return '';
+      const clean = caption.replace(/\n/g, ' ').trim();
+      return clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean;
+    }
+
+    function renderInstaGrid(posts) {
+      const limited = posts.slice(0, INSTA_POST_COUNT);
+
+      if (limited.length === 0) {
+        showInstaFallback('empty feed');
+        return;
+      }
+
+      const items = limited.map(post => {
+        const imgUrl  = buildMediaUrl(post);
+        const caption = truncateCaption(post.prunedCaption || post.caption);
+        const typeIcon = buildTypeIcon(post);
+        const link    = post.permalink || 'https://www.instagram.com/goodplayingwithyou/';
+
+        return `
+          <a class="insta-post"
+             href="${link}"
+             target="_blank"
+             rel="noopener"
+             aria-label="View Instagram post">
+            <img src="${imgUrl}"
+                 alt="${caption || 'Instagram post'}"
+                 loading="lazy" />
+            ${typeIcon}
+            <div class="insta-post-overlay">
+              ${caption ? `<p class="insta-post-caption">${caption}</p>` : ''}
+            </div>
+          </a>`;
+      }).join('');
+
+      instaContent.innerHTML = `
+        <div class="insta-grid">${items}</div>
+        <div class="insta-follow-bar">
+          <a class="btn-follow-insta"
+             href="https://www.instagram.com/goodplayingwithyou/"
+             target="_blank">
+            <i class="fa-brands fa-instagram"></i> Follow on Instagram
+          </a>
+        </div>`;
+    }
+
+    async function loadInstaFeed() {
+      // No URL configured yet — show fallback immediately
+      if (!BEHOLD_FEED_URL || BEHOLD_FEED_URL.trim() === '') {
+        showInstaFallback('not configured');
+        return;
+      }
+
+      showInstaLoading();
+
+      try {
+        const res = await fetch(BEHOLD_FEED_URL);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const posts = await res.json();
+        if (!Array.isArray(posts)) throw new Error('Unexpected response format');
+        renderInstaGrid(posts);
+      } catch (err) {
+        console.warn('Instagram feed failed:', err.message);
+        showInstaFallback('fetch error');
+      }
+    }
+
+    // Load Instagram feed on page ready
+    loadInstaFeed();
+
+    // ── Hamburger menu ────────────────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
+  </script>
 
 </body>
 </html>
