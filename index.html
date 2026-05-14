@@ -3,129 +3,649 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Good Playing With You — Weekly Gaming Podcast</title>
-  <meta name="description" content="Good Playing With You is your weekly gaming hangout. Dan Whitehill and Matt Lord break down the biggest gaming news, reviews, and hot takes every Friday." />
-  <meta name="keywords" content="gaming podcast, video games, game reviews, gaming news, Xbox, PlayStation, Nintendo, GPWY, Dan Whitehill, Matt Lord" />
-  <meta property="og:title" content="Good Playing With You — Weekly Gaming Podcast" />
-  <meta property="og:description" content="Your weekly gaming hangout. Sharp takes on gaming news, reviews, leaks, and industry chaos." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.goodplayingwithyou.com" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://www.goodplayingwithyou.com" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>Good Playing With You — Official Website</title>
+  <meta name="description" content="Join us on Good Playing With You for the latest game reviews, insider news, and hot takes. New podcast every Friday!" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── Variables ─────────────────────────────────────────── */
+    :root {
+      --navy:   #03002B;
+      --yellow: #e6a400;
+      --yellow-light: #ffc02e;
+      --white:  #ffffff;
+      --offwhite: #f0ede6;
+      --text-muted: rgba(255,255,255,0.6);
+    }
+
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Header ────────────────────────────────────────────── */
+    header {
+      background: var(--yellow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo img {
+      height: 42px;
+      width: auto;
+    }
+    nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    nav a {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+    nav a:hover { opacity: 0.65; }
+    .header-icons {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .header-icons a {
+      color: var(--navy);
+      font-size: 1.15rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .header-icons a:hover { opacity: 0.6; transform: scale(1.15); }
+
+    /* ── Hero ──────────────────────────────────────────────── */
+    .hero {
+      padding: 72px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(230,164,0,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--yellow);
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+    .badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--navy);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero h1 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--yellow); }
+    .hero p {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 40px;
+      line-height: 1.5;
+    }
+    .spotify-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .spotify-wrap iframe {
+      display: block;
+      width: 100%;
+      border: none;
+    }
+
+    /* ── Section shared ────────────────────────────────────── */
+    section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Bangers', cursive;
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: rgba(230,164,0,0.25);
+      border-radius: 2px;
+    }
+
+    /* ── Social feeds ──────────────────────────────────────── */
+    .feeds-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .feeds-grid { grid-template-columns: 1fr; }
+    }
+
+    /* X / Twitter feed */
+    .feed-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .feed-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .feed-card-header i { font-size: 1.2rem; }
+    .feed-card-header span {
+      font-weight: 900;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .twitter-wrap {
+      padding: 0;
+      min-height: 480px;
+      max-height: 600px;
+      overflow: hidden;
+    }
+    .twitter-wrap .twitter-timeline {
+      border-radius: 0 !important;
+    }
+
+    /* Instagram card */
+    .insta-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .insta-preview {
+      background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+    }
+    .insta-preview i {
+      font-size: 4rem;
+      color: white;
+      margin-bottom: 12px;
+      display: block;
+      text-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+    .insta-preview h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      letter-spacing: 0.06em;
+      color: white;
+      margin-bottom: 4px;
+    }
+    .insta-preview p {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .insta-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .insta-body p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+    .insta-body p strong { color: var(--white); }
+    .btn-instagram {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      color: white;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: auto;
+    }
+    .btn-instagram:hover { opacity: 0.88; transform: translateY(-1px); }
+    .insta-stats {
+      display: flex;
+      gap: 16px;
+    }
+    .insta-stat {
+      background: rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 16px;
+      flex: 1;
+      text-align: center;
+    }
+    .insta-stat .val {
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      color: var(--yellow);
+      display: block;
+    }
+    .insta-stat .lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    /* ── Divider ───────────────────────────────────────────── */
+    .divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* ── About ─────────────────────────────────────────────── */
+    .about-intro {
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+    .about-intro h2 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+    .about-intro h2 span { color: var(--yellow); }
+    .about-intro p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+    .crew-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .crew-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .crew-card:hover {
+      border-color: rgba(230,164,0,0.3);
+      background: rgba(255,255,255,0.06);
+    }
+    .crew-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bangers', cursive;
+      font-size: 1.6rem;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .crew-card h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .crew-card .role {
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+    .crew-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ── Listen section ────────────────────────────────────── */
+    .listen-wrap {
+      background: rgba(230,164,0,0.08);
+      border: 1px solid rgba(230,164,0,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+    .listen-wrap h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .listen-wrap p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .platform-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 0.88rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .platform-btn:hover {
+      background: rgba(230,164,0,0.15);
+      border-color: rgba(230,164,0,0.4);
+      transform: translateY(-1px);
+    }
+    .platform-btn i { font-size: 1rem; }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--yellow);
+      margin-top: 80px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-logo img { height: 36px; }
+    .footer-copy {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.7;
+    }
+    .footer-icons {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .footer-icons a {
+      color: var(--navy);
+      font-size: 1.1rem;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .footer-icons a:hover { opacity: 0.55; transform: scale(1.15); }
+
+    /* ── Responsive tweaks ─────────────────────────────────── */
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      nav { display: none; }
+      .hero { padding: 48px 16px 40px; }
+      .listen-wrap { padding: 28px 20px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
+  <!-- ── HEADER ─────────────────────────────────────────── -->
+  <header>
     <div class="header-inner">
-      <a href="index.html" class="site-logo">
-        <img src="assets/Header_Logo.webp" alt="Good Playing With You" />
+      <a class="logo" href="/">
+        <img src="assets/Header_Logo.png" alt="Good Playing With You" />
       </a>
-      <nav class="header-nav">
-        <a href="index.html" class="active">Home</a>
+      <nav>
+        <a href="/">Home</a>
         <a href="blog.html">Blog</a>
         <a href="about.html">About</a>
-        </nav>
-      <div class="header-social">
-        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.tiktok.com/@gpwy2" target="_blank" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="https://x.com/goodplaywithyou" target="_blank" class="social-icon" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" class="social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
-        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" class="social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-        <a href="https://www.buymeacoffee.com/GPWY" target="_blank" class="social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
+      </nav>
+      <div class="header-icons">
+        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.tiktok.com/@gpwy2" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://x.com/goodplaywithyou" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" aria-label="Apple Podcasts"><i class="fab fa-apple"></i></a>
+        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Open Menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
-    <nav class="mobile-nav" id="mobileNav">
-      <a href="index.html">Home</a>
-      <a href="blog.html">Blog</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
   </header>
 
-  <!-- HERO -->
-  <section class="hero fade-in">
-    <div class="swoosh-wrapper">
-      <div class="swoosh-text">
-        New Podcast Every Friday!
-        <svg viewBox="0 0 400 80" preserveAspectRatio="none">
-          <path d="M 380,55 C 395,30 350,5 200,3 C 50,1 5,20 8,42 C 11,64 80,76 200,75 C 320,74 385,62 395,48" />
-        </svg>
-      </div>
-    </div>
-    <div class="spotify-player">
+  <!-- ── HERO ───────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="badge"><span class="dot"></span> New Episode Every Friday</div>
+    <h1>Good Playing<br><span>With You</span></h1>
+    <p>Weekly gaming talk, hot takes, reviews, and the occasional heated debate. No fluff. Just good gaming.</p>
+    <div class="spotify-wrap">
       <iframe
         src="https://open.spotify.com/embed/show/6EOLY8FjUKmcVaoT7fnpCE?utm_source=generator&theme=0"
-        width="100%"
-        height="152"
-        frameBorder="0"
-        allowfullscreen=""
+        height="352"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        title="Good Playing With You Podcast on Spotify">
+        loading="lazy">
       </iframe>
+    </div>
+  </div>
+
+  <!-- ── SOCIAL FEEDS ────────────────────────────────────── -->
+  <section>
+    <div class="section-label"><i class="fas fa-satellite-dish"></i> Latest From Us</div>
+    <div class="feeds-grid">
+
+      <!-- X / Twitter Timeline -->
+      <div class="feed-card">
+        <div class="feed-card-header">
+          <i class="fab fa-x-twitter"></i>
+          <span>@goodplaywithyou</span>
+        </div>
+        <div class="twitter-wrap">
+          <a class="twitter-timeline"
+             data-theme="dark"
+             data-chrome="noheader nofooter noborders transparent"
+             data-tweet-limit="5"
+             href="https://twitter.com/goodplaywithyou">
+            Loading tweets...
+          </a>
+        </div>
+      </div>
+
+      <!-- Instagram Follow Card -->
+      <div class="insta-card">
+        <div class="feed-card-header">
+          <i class="fab fa-instagram"></i>
+          <span>@goodplayingwithyou</span>
+        </div>
+        <div class="insta-preview">
+          <i class="fab fa-instagram"></i>
+          <h3>Find Us On Instagram</h3>
+          <p>Clips, highlights, and gaming moments</p>
+        </div>
+        <div class="insta-body">
+          <div class="insta-stats">
+            <div class="insta-stat"><span class="val">📺</span><span class="lbl">Gaming Clips</span></div>
+            <div class="insta-stat"><span class="val">🎮</span><span class="lbl">Hot Takes</span></div>
+            <div class="insta-stat"><span class="val">🎙</span><span class="lbl">Ep Highlights</span></div>
+          </div>
+          <p>We post <strong>episode clips, gaming highlights,</strong> and behind-the-scenes content. Give us a follow to stay in the loop between episodes.</p>
+          <a class="btn-instagram" href="https://www.instagram.com/goodplayingwithyou/" target="_blank">
+            <i class="fab fa-instagram"></i> Follow on Instagram
+          </a>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- BLOG LISTING -->
-  <main class="blog-listing" id="posts"></main>
+  <div class="divider"></div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-divider"></div>
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="index.html" class="footer-logo">
-          <img src="assets/Header_Logo.webp" alt="Good Playing With You" />
-        </a>
-        <p>Your weekly gaming hangout. Sharp takes on news, reviews, and industry chaos — every Friday.</p>
-        <div class="footer-social">
-          <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="footer-social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" class="footer-social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-          <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" class="footer-social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
-          <a href="https://x.com/goodplaywithyou" target="_blank" class="footer-social-icon" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" class="footer-social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://www.tiktok.com/@gpwy2" target="_blank" class="footer-social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="https://www.buymeacoffee.com/GPWY" target="_blank" class="footer-social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
-        </div>
+  <!-- ── ABOUT ──────────────────────────────────────────── -->
+  <section>
+    <div class="section-label"><i class="fas fa-users"></i> The Crew</div>
+    <div class="about-intro">
+      <h2>Gamers talking <span>games.</span></h2>
+      <p>Good Playing With You is a weekly gaming podcast out of Los Angeles. We cover reviews, industry news, and everything in between — with real opinions from people who actually play the games.</p>
+    </div>
+    <div class="crew-grid">
+      <div class="crew-card">
+        <div class="crew-avatar">DW</div>
+        <h3>Dan Whitehill</h3>
+        <div class="role">Co-Host & Producer</div>
+        <p>LA-based media exec turned full-time gamer advocate. Dan brings the industry perspective and somehow keeps things on track while chaos reigns.</p>
       </div>
-      <div class="footer-col">
-        <h4>Listen</h4>
-        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank">YouTube</a>
-        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank">Spotify</a>
-        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank">Apple Podcasts</a>
+      <div class="crew-card">
+        <div class="crew-avatar">ZK</div>
+        <h3>Zach Kohler</h3>
+        <div class="role">Co-Host & Gaming Editor</div>
+        <p>The guy who has actually played everything on the list. Zach provides the reviews, the deep dives, and the takes that keep listeners coming back.</p>
       </div>
-      <div class="footer-col">
-        <h4>Follow</h4>
-        <a href="https://x.com/goodplaywithyou" target="_blank">X / Twitter</a>
-        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@gpwy2" target="_blank">TikTok</a>
-        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank">Facebook</a>
-        <a href="https://linktr.ee/goodplayingwithyou" target="_blank">LinkTree</a>
-      </div>
-      <div class="footer-col">
-        <h4>Site</h4>
-        <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://www.buymeacoffee.com/GPWY" target="_blank">Buy Us Coffee ☕</a>
+      <div class="crew-card">
+        <div class="crew-avatar">+</div>
+        <h3>Guest Seat</h3>
+        <div class="role">Rotating Co-Host</div>
+        <p>Every week a new voice joins the table. Friends, fellow gamers, and the occasional surprise guest keeping the conversation fresh.</p>
       </div>
     </div>
-    <div class="footer-bottom">© 2026 Good Playing With You. All rights reserved.</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── LISTEN EVERYWHERE ───────────────────────────────── -->
+  <section>
+    <div class="listen-wrap">
+      <h3>Listen Everywhere</h3>
+      <p>New episode drops every Friday — catch us on your platform of choice.</p>
+      <div class="platform-links">
+        <a class="platform-btn" href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank">
+          <i class="fab fa-spotify"></i> Spotify
+        </a>
+        <a class="platform-btn" href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank">
+          <i class="fab fa-apple"></i> Apple Podcasts
+        </a>
+        <a class="platform-btn" href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+        <a class="platform-btn" href="https://www.goodplayingwithyou.com/gpwy?format=rss" target="_blank">
+          <i class="fas fa-rss"></i> RSS Feed
+        </a>
+        <a class="platform-btn" href="https://buymeacoffee.com/gpwy" target="_blank">
+          <i class="fas fa-mug-hot"></i> Buy Us a Coffee
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <a class="footer-logo" href="/"><img src="assets/Header_Logo.png" alt="GPWY" /></a>
+      <p class="footer-copy">&copy; 2026 Good Playing With You. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.tiktok.com/@gpwy2" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://x.com/goodplaywithyou" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" aria-label="Spotify"><i class="fab fa-spotify"></i></a>
+      </div>
+    </div>
   </footer>
 
-  <script src="posts.js"></script>
-  <script src="app.js"></script>
+  <!-- Twitter/X Widget -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 </body>
 </html>
