@@ -22,8 +22,8 @@
 
   <style>
     :root {
-      --navy: #070028;
-      --navy-2: #11093d;
+      --navy: #03002b;
+      --navy-2: #090042;
       --gold: #e6a400;
       --gold-dark: #c98e00;
       --white: #ffffff;
@@ -43,10 +43,7 @@
 
     body {
       margin: 0;
-      background:
-        radial-gradient(circle at 20% 12%, rgba(230,164,0,0.12), transparent 26%),
-        radial-gradient(circle at 86% 28%, rgba(131,58,180,0.14), transparent 30%),
-        var(--navy);
+      background: var(--navy);
       color: var(--white);
       font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       min-height: 100vh;
@@ -734,6 +731,43 @@
       gap: 10px;
     }
 
+
+    /* CONTACT */
+    .contact-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-card h2 {
+      margin: 0 0 9px;
+      font-family: 'Bangers', Impact, fantasy;
+      letter-spacing: 0.055em;
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      text-shadow: 0 4px 0 rgba(0,0,0,0.22);
+    }
+
+    .contact-card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 760;
+      line-height: 1.6;
+      max-width: 690px;
+    }
+
+    .contact-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
     /* FOOTER */
     .site-footer {
       margin-top: 42px;
@@ -812,6 +846,7 @@
       .hero-grid,
       .audio-card,
       .social-grid,
+      .contact-card,
       .footer-inner {
         grid-template-columns: 1fr;
       }
@@ -824,11 +859,13 @@
         max-width: 720px;
       }
 
-      .audio-card {
+      .audio-card,
+      .contact-card {
         text-align: center;
       }
 
-      .listen-buttons {
+      .listen-buttons,
+      .contact-actions {
         justify-content: center;
       }
 
@@ -957,9 +994,9 @@
               <div class="youtube-placeholder-inner">
                 <i class="fa-brands fa-youtube"></i>
                 <h2>Latest episode lives on YouTube</h2>
-                <p>Drop in the newest YouTube embed URL when you want the episode to play directly here.</p>
-                <a class="btn btn-primary" href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener">
-                  Open YouTube Channel
+                <p>Watch the newest full episode from the official Good Playing With You podcast playlist.</p>
+                <a class="btn btn-primary" href="https://www.youtube.com/playlist?list=PLu9eJrCDhAk-OmrEUvAslFwPf0pylASG6" target="_blank" rel="noopener">
+                  Watch Latest Episode
                 </a>
               </div>
             </div>
@@ -1022,6 +1059,23 @@
         </div>
       </div>
     </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div>
+            <h2>Want to work with us?</h2>
+            <p>Guest pitches, sponsorships, collabs, and unhinged gaming theories are welcome. Reach out and tell us what you’ve got.</p>
+          </div>
+          <div class="contact-actions">
+            <a class="btn btn-primary" id="contactEmailLink" href="mailto:goodplayingwithyou@gmail.com?subject=Good%20Playing%20With%20You%20Inquiry">
+              <i class="fa-solid fa-envelope"></i> Contact GPWY
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -1073,9 +1127,8 @@
     // CONFIG
     // ════════════════════════════════════════════════════════════
 
-    // Paste a YouTube embed URL here when you want the latest episode to play directly on the homepage.
-    // Example format: https://www.youtube.com/embed/VIDEO_ID
-    const LATEST_YOUTUBE_EMBED_URL = '';
+    // Official GPWY podcast playlist embed. Keep the playlist sorted with the newest episode first.
+    const LATEST_YOUTUBE_EMBED_URL = 'https://www.youtube.com/embed/videoseries?list=PLu9eJrCDhAk-OmrEUvAslFwPf0pylASG6';
 
     // Current Behold feed from the last index.html.
     const BEHOLD_FEED_URL = 'https://feeds.behold.so/zXK2U4t1LAZt4LiDlWlB';
