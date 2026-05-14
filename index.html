@@ -3,189 +3,476 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Good Playing With You — Weekly Gaming Podcast</title>
-  <meta name="description" content="Good Playing With You is your weekly gaming hangout. Dan Whitehill and Zach Kohler break down the biggest gaming news, reviews, and hot takes every Friday." />
-  <meta name="keywords" content="gaming podcast, video games, game reviews, gaming news, Xbox, PlayStation, Nintendo, GPWY, Dan Whitehill, Zach Kohler" />
+  <meta name="description" content="Good Playing With You is your weekly gaming hangout. Dan Whitehill and Matt Lord break down the biggest gaming news, reviews, and industry chaos every Friday." />
+  <meta name="keywords" content="gaming podcast, video game podcast, video game news, gaming news, game reviews, PlayStation, Xbox, Nintendo, YouTube gaming podcast, Spotify gaming podcast, Good Playing With You, Dan Whitehill, Matt Lord" />
+  <link rel="canonical" href="https://www.goodplayingwithyou.com" />
+
   <meta property="og:title" content="Good Playing With You — Weekly Gaming Podcast" />
-  <meta property="og:description" content="Your weekly gaming hangout. Sharp takes on gaming news, reviews, leaks, and industry chaos." />
+  <meta property="og:description" content="Your weekly gaming hangout. Sharp takes on gaming news, reviews, leaks, and industry chaos every Friday." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.goodplayingwithyou.com" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="canonical" href="https://www.goodplayingwithyou.com" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* ── Spotify player — big version ───────────────────── */
-    .spotify-player iframe { height: 352px !important; }
+    :root {
+      --navy: #070028;
+      --navy-2: #11093d;
+      --gold: #e6a400;
+      --gold-dark: #c98e00;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.72);
+      --muted-2: rgba(255,255,255,0.52);
+      --card: rgba(255,255,255,0.055);
+      --card-2: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.12);
+      --shadow: 0 18px 50px rgba(0,0,0,0.26);
+      --radius: 22px;
+      --container: 1120px;
+    }
 
-    /* ── Footer fix ─────────────────────────────────────── */
-    .footer-divider { display: none !important; }
-    .site-footer,
-    .footer-inner,
-    .footer-bottom { background: #e6a400 !important; }
+    * { box-sizing: border-box; }
 
-    /* ── Social Feeds — vertical stack ──────────────────── */
-    .social-feeds {
-      max-width: 1100px;
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(230,164,0,0.12), transparent 26%),
+        radial-gradient(circle at 86% 28%, rgba(131,58,180,0.14), transparent 30%),
+        var(--navy);
+      color: var(--white);
+      font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; }
+
+    img { max-width: 100%; }
+
+    .container {
+      width: min(var(--container), calc(100% - 40px));
       margin: 0 auto;
-      padding: 32px 24px 0;
+    }
+
+    /* HEADER */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--gold);
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+    }
+
+    .header-inner {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: 220px 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .site-logo {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .site-logo img {
+      width: 176px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 0 rgba(0,0,0,0.15));
+    }
+
+    .header-nav {
       display: flex;
-      flex-direction: column;
-      gap: 32px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
-    /* X panel: cap width so it doesn't look lost at full width */
-    .x-panel {
-      max-width: 680px;
-      align-self: center;
-      width: 100%;
+    .header-nav a {
+      text-decoration: none;
+      color: #090220;
+      font-weight: 900;
+      font-size: 0.96rem;
+      padding: 12px 18px;
+      border-radius: 9px;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
 
-    /* Instagram panel: full width — the star of the show */
-    .insta-panel {
-      width: 100%;
+    .header-nav a:hover,
+    .header-nav a.active {
+      background: rgba(0,0,0,0.1);
+      transform: translateY(-1px);
     }
 
-    @media (max-width: 768px) {
-      .social-feeds { padding: 24px 16px 0; gap: 24px; }
-      .x-panel { max-width: 100%; }
+    .header-social,
+    .footer-social {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
-    /* ── Shared panel ────────────────────────────────────── */
-    .feed-panel {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
+    .social-icon,
+    .footer-social-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #050028;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .social-icon:hover,
+    .footer-social-icon:hover {
+      transform: translateY(-2px);
+      background: #17104b;
+    }
+
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.12);
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: #090220;
+      border-radius: 99px;
+      margin: 5px 0;
+    }
+
+    .mobile-nav {
+      display: none;
+      background: var(--gold);
+      border-top: 1px solid rgba(0,0,0,0.1);
+      padding: 10px 20px 18px;
+      text-align: center;
+    }
+
+    .mobile-nav a {
+      display: block;
+      color: #090220;
+      font-weight: 900;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .mobile-nav a:hover { background: rgba(0,0,0,0.1); }
+
+    /* HERO */
+    .hero {
+      padding: 72px 0 52px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #090220;
+      background: var(--gold);
+      font-weight: 1000;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 8px 13px;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.16);
+    }
+
+    .hero h1,
+    .section-title,
+    .card-title,
+    .fallback-title {
+      font-family: 'Bangers', Impact, fantasy;
+      letter-spacing: 0.055em;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.1rem, 6.5vw, 6.25rem);
+      margin: 24px 0 18px;
+      text-shadow: 0 5px 0 rgba(0,0,0,0.28);
+    }
+
+    .hero-copy {
+      color: var(--muted);
+      font-size: 1.08rem;
+      font-weight: 750;
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 0 26px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 48px;
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-weight: 1000;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: transform 0.15s ease, opacity 0.2s ease, background 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #070028;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.18);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--line);
+      color: #fff;
+    }
+
+    .hero-media {
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .media-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .media-label span:first-child {
+      color: #fff;
+    }
+
+    .youtube-frame {
+      aspect-ratio: 16 / 9;
       border-radius: 16px;
       overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(230,164,0,0.16), rgba(255,255,255,0.04)),
+        #130a38;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
     }
+
+    .youtube-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .youtube-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px;
+    }
+
+    .youtube-placeholder-inner {
+      max-width: 420px;
+    }
+
+    .youtube-placeholder i {
+      font-size: 3.25rem;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .youtube-placeholder h2 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+    }
+
+    .youtube-placeholder p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 750;
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 34px 0;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 24px;
+    }
+
+    .section-title {
+      font-size: clamp(2.1rem, 4vw, 3.2rem);
+      margin: 0 0 10px;
+      text-shadow: 0 4px 0 rgba(0,0,0,0.24);
+    }
+
+    .section-copy {
+      margin: 0 auto;
+      color: var(--muted);
+      font-weight: 760;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* AUDIO */
+    .audio-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr minmax(260px, 430px);
+      gap: 22px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .audio-card h2 {
+      margin: 0 0 8px;
+      font-family: 'Bangers', Impact, fantasy;
+      letter-spacing: 0.05em;
+      font-size: 2.3rem;
+    }
+
+    .audio-card p {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 760;
+      line-height: 1.6;
+    }
+
+    .listen-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .spotify-compact iframe {
+      width: 100%;
+      height: 152px;
+      border: 0;
+      border-radius: 14px;
+      display: block;
+      background: #1f1f1f;
+    }
+
+    /* SOCIAL */
+    .social-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .feed-panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
     .feed-panel-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 14px 20px;
-      background: rgba(255,255,255,0.05);
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.06);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .feed-panel-header i { font-size: 1.1rem; color: #e6a400; }
+
+    .feed-panel-header i {
+      font-size: 1.08rem;
+      color: var(--gold);
+    }
+
     .feed-panel-header span {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      letter-spacing: 0.06em;
+      font-weight: 1000;
+      font-size: 0.83rem;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: #fff;
     }
 
-    /* ── X / Twitter ─────────────────────────────────────── */
-    .twitter-feed-wrap {
-      min-height: 500px;
-      max-height: 580px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* The actual embedded timeline iframe */
-    .twitter-feed-wrap iframe { border-radius: 0; }
-
-    /* Fallback card — shown if embed times out */
-    .x-fallback {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 48px 24px;
-      gap: 16px;
-    }
-    .x-fallback.visible { display: flex; }
-    .x-fallback-icon {
-      width: 64px;
-      height: 64px;
-      background: #000;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .x-fallback h3 {
-      font-family: 'Bangers', cursive;
-      font-size: 1.8rem;
-      letter-spacing: 0.04em;
-      color: #fff;
-      margin: 0;
-    }
-    .x-fallback p {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.55;
-      max-width: 280px;
-      margin: 0;
-    }
-    .btn-follow-x {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 13px 24px;
-      border-radius: 10px;
-      background: #000;
-      color: #fff;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 900;
-      font-size: 0.95rem;
-      letter-spacing: 0.03em;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.15);
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-follow-x:hover { background: #1a1a1a; transform: translateY(-1px); }
-
-    /* Loading state */
-    .x-loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 40px 20px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.35);
-    }
-    .x-loading i { animation: spin 1s linear infinite; }
-
-    /* ══════════════════════════════════════════════════════
-       INSTAGRAM FEED — large portrait grid
-       ══════════════════════════════════════════════════════ */
-
-    /* 3-col portrait grid — full panel width */
     .insta-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 6px;
-      background: rgba(0,0,0,0.5);
-      padding: 6px;
-    }
-    @media (max-width: 600px) {
-      .insta-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 4px; }
+      padding: 8px;
+      background: rgba(0,0,0,0.38);
+      max-height: 620px;
+      overflow: hidden;
     }
 
-    /* Each tile: 9:16 portrait — matches Reel format */
     .insta-post {
       position: relative;
-      aspect-ratio: 9 / 16;
-      overflow: hidden;
-      cursor: pointer;
+      aspect-ratio: 4 / 5;
       display: block;
-      background: rgba(255,255,255,0.06);
-      border-radius: 8px;
+      overflow: hidden;
+      border-radius: 12px;
       text-decoration: none;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
     .insta-post img {
@@ -194,268 +481,218 @@
       object-fit: cover;
       object-position: center top;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.35s ease;
     }
+
     .insta-post:hover img { transform: scale(1.04); }
 
-    /* Permanent gradient at bottom for caption legibility */
     .insta-post::before {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top,
-        rgba(3,0,43,0.9) 0%,
-        rgba(3,0,43,0.2) 45%,
-        transparent 70%);
+      background: linear-gradient(to top, rgba(3,0,43,0.84), rgba(3,0,43,0.18) 48%, transparent 72%);
       z-index: 1;
       pointer-events: none;
-      border-radius: 8px;
     }
 
-    /* Play button — always visible on video posts */
-    .insta-play-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(6px);
-      border: 2px solid rgba(255,255,255,0.55);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-      transition: background 0.2s, border-color 0.2s, transform 0.2s;
-    }
-    .insta-play-btn i { color: #fff; font-size: 1.2rem; margin-left: 4px; }
-    .insta-post:hover .insta-play-btn {
-      background: rgba(230,164,0,0.85);
-      border-color: #e6a400;
-      transform: translate(-50%, -50%) scale(1.1);
-    }
-
-    /* Caption pinned to bottom */
     .insta-post-caption {
       position: absolute;
-      bottom: 0;
       left: 0;
       right: 0;
-      padding: 10px 14px 16px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 800;
+      bottom: 0;
+      z-index: 2;
+      padding: 12px;
       color: #fff;
-      line-height: 1.35;
+      font-weight: 900;
+      font-size: 0.78rem;
+      line-height: 1.28;
+      margin: 0;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      z-index: 2;
     }
 
-    /* "Watch Reel" / "View Post" label on hover */
-    .insta-watch-label {
+    .insta-play-btn {
       position: absolute;
-      top: 12px;
-      left: 0; right: 0;
-      text-align: center;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.9);
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      opacity: 0;
-      transition: opacity 0.25s;
-      z-index: 2;
-    }
-    .insta-post:hover .insta-watch-label { opacity: 1; }
-
-    /* Follow bar below the grid */
-    .insta-follow-bar {
-      padding: 16px 20px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .btn-follow-insta {
-      display: flex;
+      z-index: 3;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 2px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      padding: 12px 20px;
-      border-radius: 10px;
+      color: #fff;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .insta-post:hover .insta-play-btn {
+      background: rgba(230,164,0,0.86);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .insta-play-btn i { margin-left: 3px; }
+
+    .follow-bar {
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .btn-follow-insta {
+      width: 100%;
       background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
       color: #fff;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 900;
-      font-size: 0.92rem;
-      letter-spacing: 0.03em;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.15s;
     }
-    .btn-follow-insta:hover { opacity: 0.85; transform: translateY(-1px); }
 
-    /* ── Loading skeleton ─────────────────────────────────── */
     .insta-loading {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3px;
-      background: #000;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      padding: 8px;
+      background: rgba(0,0,0,0.38);
     }
+
     .insta-skeleton {
-      aspect-ratio: 1;
-      background: rgba(255,255,255,0.06);
-      animation: shimmer 1.4s infinite;
+      aspect-ratio: 4 / 5;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.08);
+      animation: shimmer 1.4s infinite ease-in-out;
     }
+
     @keyframes shimmer {
-      0%, 100% { opacity: 0.4; }
-      50%       { opacity: 0.9; }
+      0%, 100% { opacity: 0.42; }
+      50% { opacity: 0.88; }
     }
 
-    /* ── Error / no-config state ──────────────────────────── */
-    .insta-error {
-      padding: 32px 24px;
-      text-align: center;
-      font-family: 'Nunito', sans-serif;
-    }
-    .insta-error i {
-      font-size: 2rem;
-      color: rgba(255,255,255,0.2);
-      margin-bottom: 10px;
-      display: block;
-    }
-    .insta-error p {
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.45);
-      line-height: 1.5;
-      font-weight: 700;
-    }
-
-    /* ── Fallback CTA (shown only when feed fails) ─────────── */
-    .insta-fallback { display: none; }
-    .insta-fallback.visible { display: block; }
-
-    .insta-gradient {
-      background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
-      padding: 36px 24px;
-      text-align: center;
-    }
-    .insta-gradient i {
-      font-size: 3.5rem;
-      color: #fff;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .insta-gradient h3 {
-      font-family: 'Bangers', cursive;
-      font-size: 1.9rem;
-      letter-spacing: 0.06em;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .insta-gradient p {
-      color: rgba(255,255,255,0.85);
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.92rem;
-      font-weight: 700;
-    }
-    .insta-fallback-body {
-      padding: 20px 24px 24px;
+    .social-fallback,
+    .x-fallback {
+      min-height: 334px;
+      padding: 36px 26px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       gap: 14px;
     }
-    .insta-fallback-body p {
-      font-family: 'Nunito', sans-serif;
-      color: rgba(255,255,255,0.6);
-      font-size: 0.9rem;
-      line-height: 1.6;
-      font-weight: 700;
-    }
-    .insta-fallback-body p strong { color: #fff; }
 
-    /* ══════════════════════════════════════════════════════
-       MODAL / LIGHTBOX
-       ══════════════════════════════════════════════════════ */
+    .fallback-icon {
+      width: 62px;
+      height: 62px;
+      border-radius: 17px;
+      background: #000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+
+    .instagram-icon-bg {
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    }
+
+    .fallback-title {
+      margin: 0;
+      font-size: 2.1rem;
+    }
+
+    .social-fallback p,
+    .x-fallback p {
+      color: var(--muted);
+      font-weight: 760;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 320px;
+    }
+
+    .btn-follow-x {
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .x-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .twitter-feed-wrap {
+      min-height: 334px;
+      max-height: 460px;
+      overflow: hidden;
+      position: relative;
+      flex: 1;
+    }
+
+    .twitter-feed-wrap iframe {
+      width: 100% !important;
+      max-height: 460px !important;
+    }
+
+    .x-loading {
+      min-height: 334px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted-2);
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .x-loading i { animation: spin 1s linear infinite; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MODAL */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(3,0,43,0.93);
       z-index: 1000;
+      background: rgba(3,0,43,0.94);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      animation: modalFadeIn 0.2s ease;
     }
-    @keyframes modalFadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+
     .modal-inner {
       position: relative;
       width: 100%;
-      max-width: 480px;
-      animation: modalSlideUp 0.25s ease;
+      max-width: 500px;
     }
-    @keyframes modalSlideUp {
-      from { transform: translateY(16px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
+
     .modal-close {
       position: absolute;
-      top: -46px;
+      top: -48px;
       right: 0;
-      background: none;
-      border: none;
+      background: transparent;
+      border: 0;
       color: #fff;
-      font-size: 2rem;
+      font-size: 2.4rem;
       line-height: 1;
       cursor: pointer;
-      padding: 8px;
       opacity: 0.75;
-      transition: opacity 0.2s, transform 0.2s;
-      z-index: 10;
     }
-    .modal-close:hover { opacity: 1; transform: scale(1.15); }
 
-    /* Video embed wrapper */
+    .modal-close:hover { opacity: 1; }
+
+    .modal-img-wrap,
     .modal-embed {
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-      min-height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-embed .instagram-media {
-      margin: 0 !important;
-      min-width: 100% !important;
-    }
-    .modal-loading {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 60px 20px;
-      color: rgba(255,255,255,0.5);
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-    .modal-loading i { font-size: 1.8rem; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Image lightbox */
-    .modal-img-wrap {
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
       background: #000;
-      line-height: 0;
+      border: 1px solid rgba(255,255,255,0.12);
     }
+
     .modal-img-wrap img {
       width: 100%;
       max-height: 78vh;
@@ -463,232 +700,433 @@
       display: block;
     }
 
-    /* Caption + link below modal */
+    .modal-embed {
+      background: #fff;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .modal-footer {
       margin-top: 14px;
       text-align: center;
     }
+
     .modal-caption {
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.4;
-      margin-bottom: 8px;
+      color: rgba(255,255,255,0.78);
+      font-weight: 750;
+      line-height: 1.45;
+      margin: 0 0 9px;
     }
+
     .modal-ig-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: #e6a400;
-      letter-spacing: 0.03em;
-      transition: opacity 0.2s;
+      color: var(--gold);
+      font-weight: 900;
+      text-decoration: none;
     }
-    .modal-ig-link:hover { opacity: 0.75; }
+
+    .modal-loading {
+      color: var(--navy);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      margin-top: 42px;
+      background: var(--gold);
+      color: #08001f;
+    }
+
+    .footer-inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 38px 0 30px;
+      display: grid;
+      grid-template-columns: minmax(240px, 1.25fr) repeat(3, minmax(130px, 0.7fr));
+      gap: 34px;
+      align-items: start;
+    }
+
+    .footer-logo img {
+      width: 154px;
+      filter: drop-shadow(0 4px 0 rgba(0,0,0,0.14));
+    }
+
+    .footer-brand p {
+      margin: 12px 0 16px;
+      font-weight: 800;
+      line-height: 1.55;
+      max-width: 320px;
+    }
+
+    .footer-social { justify-content: flex-start; }
+
+    .footer-col h4 {
+      margin: 0 0 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      font-weight: 1000;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #08001f;
+      text-decoration: none;
+      font-weight: 900;
+      margin: 0 0 11px;
+    }
+
+    .footer-col a:hover { text-decoration: underline; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(0,0,0,0.12);
+      text-align: center;
+      padding: 16px 20px;
+      font-weight: 800;
+      font-size: 0.86rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      .header-inner {
+        grid-template-columns: 180px 1fr auto;
+      }
+
+      .header-social {
+        display: none;
+      }
+
+      .hamburger {
+        display: inline-block;
+      }
+
+      .mobile-nav.open {
+        display: block;
+      }
+
+      .hero-grid,
+      .audio-card,
+      .social-grid,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 46px;
+      }
+
+      .hero-copy {
+        max-width: 720px;
+      }
+
+      .audio-card {
+        text-align: center;
+      }
+
+      .listen-buttons {
+        justify-content: center;
+      }
+
+      .footer-inner {
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container,
+      .header-inner,
+      .footer-inner {
+        width: min(100% - 28px, var(--container));
+      }
+
+      .header-inner {
+        min-height: 64px;
+        grid-template-columns: 1fr auto;
+      }
+
+      .site-logo img {
+        width: 152px;
+      }
+
+      .header-nav {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 3.2rem;
+      }
+
+      .button-row .btn {
+        width: 100%;
+      }
+
+      .media-label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .insta-grid,
+      .insta-loading {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .social-fallback,
+      .x-fallback,
+      .x-loading {
+        min-height: 270px;
+      }
+
+      .twitter-feed-wrap {
+        min-height: 270px;
+      }
+    }
   </style>
 </head>
-<body>
 
-  <!-- HEADER -->
+<body>
   <header class="site-header">
     <div class="header-inner">
-      <a href="index.html" class="site-logo">
+      <a href="index.html" class="site-logo" aria-label="Good Playing With You home">
         <img src="assets/Header_Logo.webp" alt="Good Playing With You" />
       </a>
-      <nav class="header-nav">
+
+      <nav class="header-nav" aria-label="Primary navigation">
         <a href="index.html" class="active">Home</a>
-        <a href="blog.html">Blog</a>
         <a href="about.html">About</a>
       </nav>
-      <div class="header-social">
-        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://www.tiktok.com/@gpwy2" target="_blank" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="https://x.com/goodplaywithyou" target="_blank" class="social-icon" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" class="social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
-        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" class="social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-        <a href="https://www.buymeacoffee.com/GPWY" target="_blank" class="social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
+
+      <div class="header-social" aria-label="Social links">
+        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.tiktok.com/@gpwy2" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://x.com/goodplaywithyou" target="_blank" rel="noopener" class="social-icon" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" rel="noopener" class="social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
+        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener" class="social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+        <a href="https://www.buymeacoffee.com/GPWY" target="_blank" rel="noopener" class="social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Open Menu">
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <nav class="mobile-nav" id="mobileNav">
+
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
       <a href="index.html">Home</a>
-      <a href="blog.html">Blog</a>
       <a href="about.html">About</a>
+      <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener">Spotify</a>
+      <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener">Instagram</a>
     </nav>
   </header>
 
-  <!-- HERO -->
-  <section class="hero fade-in">
-    <div class="swoosh-wrapper">
-      <div class="swoosh-text">
-        New Podcast Every Friday!
-        <svg viewBox="0 0 400 80" preserveAspectRatio="none">
-          <path d="M 380,55 C 395,30 350,5 200,3 C 50,1 5,20 8,42 C 11,64 80,76 200,75 C 320,74 385,62 395,48" />
-        </svg>
-      </div>
-    </div>
-    <div class="spotify-player">
-      <iframe
-        src="https://open.spotify.com/embed/show/6EOLY8FjUKmcVaoT7fnpCE?utm_source=generator&theme=0"
-        width="100%"
-        height="352"
-        frameBorder="0"
-        allowfullscreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        title="Good Playing With You Podcast on Spotify">
-      </iframe>
-    </div>
-  </section>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy-block">
+          <div class="eyebrow"><i class="fa-solid fa-bolt"></i> New episodes every Friday</div>
+          <h1>Your weekly video game hangout.</h1>
+          <p class="hero-copy">
+            Good Playing With You is a weekly gaming news podcast hosted by Dan Whitehill and Matt Lord,
+            breaking down the biggest stories, weirdest industry chaos, and hottest takes in gaming every Friday.
+          </p>
+          <div class="button-row">
+            <a class="btn btn-primary" href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener">
+              <i class="fa-brands fa-youtube"></i> Watch Latest Episode
+            </a>
+            <a class="btn btn-secondary" href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener">
+              <i class="fa-brands fa-spotify"></i> Listen on Spotify
+            </a>
+          </div>
+        </div>
 
-  <!-- SOCIAL FEEDS -->
-  <div class="social-feeds">
-
-    <!-- X / Twitter Timeline -->
-    <div class="feed-panel x-panel">
-      <div class="feed-panel-header">
-        <i class="fa-brands fa-x-twitter"></i>
-        <span>@goodplaywithyou</span>
-      </div>
-      <div class="twitter-feed-wrap" id="xFeedWrap">
-        <!-- JS replaces this with the embed or fallback -->
-        <div class="x-loading" id="xLoading">
-          <i class="fa-solid fa-circle-notch"></i> Loading posts…
+        <div class="hero-media">
+          <div class="media-label">
+            <span>Watch the Latest Episode</span>
+            <span>Full video podcast</span>
+          </div>
+          <div class="youtube-frame" id="youtubeFrame">
+            <!-- Optional: paste a specific YouTube embed URL into LATEST_YOUTUBE_EMBED_URL below. -->
+            <div class="youtube-placeholder" id="youtubePlaceholder">
+              <div class="youtube-placeholder-inner">
+                <i class="fa-brands fa-youtube"></i>
+                <h2>Latest episode lives on YouTube</h2>
+                <p>Drop in the newest YouTube embed URL when you want the episode to play directly here.</p>
+                <a class="btn btn-primary" href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener">
+                  Open YouTube Channel
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Instagram Feed -->
-    <div class="feed-panel insta-panel" id="instaPanel">
-      <div class="feed-panel-header">
-        <i class="fa-brands fa-instagram"></i>
-        <span>@goodplayingwithyou</span>
+    <section class="section listen-section">
+      <div class="container">
+        <div class="audio-card">
+          <div>
+            <h2>Prefer audio?</h2>
+            <p>Catch the show on Spotify, Apple Podcasts, or wherever you listen. Same gaming chaos, slightly less eye contact.</p>
+            <div class="listen-buttons">
+              <a class="btn btn-primary" href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener"><i class="fa-brands fa-spotify"></i> Spotify</a>
+              <a class="btn btn-secondary" href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" rel="noopener"><i class="fa-brands fa-apple"></i> Apple Podcasts</a>
+            </div>
+          </div>
+          <div class="spotify-compact">
+            <iframe
+              src="https://open.spotify.com/embed/show/6EOLY8FjUKmcVaoT7fnpCE?utm_source=generator&theme=0"
+              allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              title="Good Playing With You Podcast on Spotify">
+            </iframe>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Content swapped by JS: loading → grid or fallback -->
-      <div id="instaContent"></div>
+    <section class="section social-section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Follow the Chaos Between Episodes</h2>
+          <p class="section-copy">Clips, reactions, gaming hot takes, and behind-the-scenes nonsense from the GPWY crew.</p>
+        </div>
 
-    </div>
-  </div>
+        <div class="social-grid">
+          <article class="feed-panel insta-panel" aria-label="Instagram feed">
+            <div class="feed-panel-header">
+              <i class="fa-brands fa-instagram"></i>
+              <span>@goodplayingwithyou</span>
+            </div>
+            <div id="instaContent"></div>
+          </article>
 
-  <!-- FOOTER -->
+          <article class="feed-panel x-panel" aria-label="X / Twitter feed">
+            <div class="feed-panel-header">
+              <i class="fa-brands fa-x-twitter"></i>
+              <span>@goodplaywithyou</span>
+            </div>
+            <div class="twitter-feed-wrap" id="xFeedWrap">
+              <div class="x-loading" id="xLoading">
+                <i class="fa-solid fa-circle-notch"></i> Loading X posts…
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <a href="index.html" class="footer-logo">
+        <a href="index.html" class="footer-logo" aria-label="Good Playing With You home">
           <img src="assets/Header_Logo.webp" alt="Good Playing With You" />
         </a>
-        <p>Your weekly gaming hangout. Sharp takes on news, reviews, and industry chaos — every Friday.</p>
+        <p>Your weekly gaming hangout. Sharp takes on news, reviews, and industry chaos every Friday.</p>
         <div class="footer-social">
-          <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" class="footer-social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" class="footer-social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
-          <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" class="footer-social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
-          <a href="https://x.com/goodplaywithyou" target="_blank" class="footer-social-icon" aria-label="X/Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" class="footer-social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="https://www.tiktok.com/@gpwy2" target="_blank" class="footer-social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-          <a href="https://www.buymeacoffee.com/GPWY" target="_blank" class="footer-social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
+          <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener" class="footer-social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Spotify"><i class="fa-brands fa-spotify"></i></a>
+          <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Apple Podcasts"><i class="fa-brands fa-apple"></i></a>
+          <a href="https://x.com/goodplaywithyou" target="_blank" rel="noopener" class="footer-social-icon" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@gpwy2" target="_blank" rel="noopener" class="footer-social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://www.buymeacoffee.com/GPWY" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Buy Us Coffee"><i class="fa-solid fa-mug-hot"></i></a>
         </div>
       </div>
+
       <div class="footer-col">
-        <h4>Listen</h4>
-        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank">YouTube</a>
-        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank">Spotify</a>
-        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank">Apple Podcasts</a>
+        <h4>Watch / Listen</h4>
+        <a href="https://www.youtube.com/@GoodPlayingWithYou" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://podcasters.spotify.com/pod/show/goodplayingwithyou" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://podcasts.apple.com/us/podcast/good-playing-with-you/id1723094871" target="_blank" rel="noopener">Apple Podcasts</a>
       </div>
+
       <div class="footer-col">
         <h4>Follow</h4>
-        <a href="https://x.com/goodplaywithyou" target="_blank">X / Twitter</a>
-        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@gpwy2" target="_blank">TikTok</a>
-        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank">Facebook</a>
-        <a href="https://linktr.ee/goodplayingwithyou" target="_blank">LinkTree</a>
+        <a href="https://x.com/goodplaywithyou" target="_blank" rel="noopener">X / Twitter</a>
+        <a href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@gpwy2" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.facebook.com/people/Good-Playing-With-You-Video-Game-Podcast/61562592381862/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://linktr.ee/goodplayingwithyou" target="_blank" rel="noopener">LinkTree</a>
       </div>
+
       <div class="footer-col">
         <h4>Site</h4>
         <a href="index.html">Home</a>
-        <a href="blog.html">Blog</a>
         <a href="about.html">About</a>
-        <a href="https://www.buymeacoffee.com/GPWY" target="_blank">Buy Us Coffee ☕</a>
+        <a href="https://www.buymeacoffee.com/GPWY" target="_blank" rel="noopener">Buy Us Coffee ☕</a>
       </div>
     </div>
     <div class="footer-bottom">© 2026 Good Playing With You. All rights reserved.</div>
   </footer>
 
-  <!-- X/Twitter widget loaded dynamically by xFeed.js below -->
-
   <script>
     // ════════════════════════════════════════════════════════════
-    // INSTAGRAM CONFIG — PASTE YOUR BEHOLD FEED URL HERE
-    // ════════════════════════════════════════════════════════════
-    //
-    // HOW TO GET YOUR BEHOLD FEED URL (takes ~10 minutes):
-    //
-    //   1. Go to behold.so → Sign up free
-    //   2. Click "Add Source" → choose Instagram
-    //   3. Connect your Instagram Business account
-    //      (@goodplayingwithyou) via their OAuth login
-    //   4. Once connected, click "Add Feed"
-    //   5. Choose "JSON Feed" as the output type
-    //      (NOT the embed widget — we want the raw JSON URL)
-    //   6. Name it anything, e.g. "GPWY Website"
-    //   7. Copy the Feed URL — looks like:
-    //      https://feeds.behold.so/AbCdEf1234567890AbCd
-    //   8. Paste that URL below, replacing the empty string
-    //
-    // COST: Free tier is sufficient. No credit card needed.
-    // TOKENS: Behold stores your Instagram token on their servers.
-    //         Nothing secret goes in this file.
-    // AUTO-REFRESH: Behold refreshes your token automatically.
-    //
+    // CONFIG
     // ════════════════════════════════════════════════════════════
 
+    // Paste a YouTube embed URL here when you want the latest episode to play directly on the homepage.
+    // Example format: https://www.youtube.com/embed/VIDEO_ID
+    const LATEST_YOUTUBE_EMBED_URL = '';
+
+    // Current Behold feed from the last index.html.
     const BEHOLD_FEED_URL = 'https://feeds.behold.so/zXK2U4t1LAZt4LiDlWlB';
 
-    // 6 posts = 3 columns × 2 rows — large, clear, impactful
-    const INSTA_POST_COUNT = 6;
+    // Keep the social preview tight. Four posts keeps Instagram useful without letting it take over the page.
+    const INSTA_POST_COUNT = 4;
+
+    // ════════════════════════════════════════════════════════════
+    // HERO YOUTUBE EMBED
+    // ════════════════════════════════════════════════════════════
+
+    (function initYoutubeEmbed() {
+      const frame = document.getElementById('youtubeFrame');
+      const url = LATEST_YOUTUBE_EMBED_URL.trim();
+
+      if (!frame || !url) return;
+
+      frame.innerHTML = `
+        <iframe
+          src="${url}"
+          title="Latest Good Playing With You episode"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>`;
+    })();
+
+    // ════════════════════════════════════════════════════════════
+    // INSTAGRAM FEED
+    // ════════════════════════════════════════════════════════════
 
     const instaContent = document.getElementById('instaContent');
 
-    // ── Loading / fallback states ─────────────────────────────
-
     function showInstaLoading() {
-      const skeletons = Array.from({length: INSTA_POST_COUNT}, () =>
-        '<div class="insta-skeleton"></div>'
-      ).join('');
+      const skeletons = Array.from({ length: INSTA_POST_COUNT }, () => '<div class="insta-skeleton"></div>').join('');
       instaContent.innerHTML = `<div class="insta-loading">${skeletons}</div>`;
     }
 
-    function showInstaFallback(reason) {
+    function showInstaFallback() {
       instaContent.innerHTML = `
-        <div class="insta-fallback visible">
-          <div class="insta-gradient">
-            <i class="fa-brands fa-instagram"></i>
-            <h3>Find Us On Instagram</h3>
-            <p>Episode clips, gaming highlights &amp; more</p>
-          </div>
-          <div class="insta-fallback-body">
-            <p>We post <strong>episode highlights, gaming clips,</strong> and
-               behind-the-scenes content. Follow us for the latest.</p>
-            <a class="btn-follow-insta"
-               href="https://www.instagram.com/goodplayingwithyou/"
-               target="_blank">
-              <i class="fa-brands fa-instagram"></i> Follow on Instagram
-            </a>
-          </div>
+        <div class="social-fallback">
+          <div class="fallback-icon instagram-icon-bg"><i class="fa-brands fa-instagram"></i></div>
+          <h3 class="fallback-title">Find Us on Instagram</h3>
+          <p>Episode clips, gaming highlights, hot takes, and behind-the-scenes nonsense.</p>
+          <a class="btn btn-follow-insta" href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener">
+            <i class="fa-brands fa-instagram"></i> Follow on Instagram
+          </a>
         </div>`;
     }
 
-    // ── Helpers ───────────────────────────────────────────────
-
     function buildMediaUrl(post) {
-      // Use Behold's own CDN for thumbnails — stable, no expiry, no CORS issues
       return post.sizes?.medium?.mediaUrl
           || post.sizes?.small?.mediaUrl
           || post.thumbnailUrl
@@ -696,124 +1134,117 @@
           || '';
     }
 
-    function truncateCaption(caption, maxLen = 80) {
+    function truncateCaption(caption, maxLen = 86) {
       if (!caption) return '';
-      const clean = caption.replace(/\n/g, ' ').trim();
-      return clean.length > maxLen ? clean.slice(0, maxLen) + '…' : clean;
+      const clean = caption.replace(/\s+/g, ' ').trim();
+      return clean.length > maxLen ? clean.slice(0, maxLen).trim() + '…' : clean;
     }
-
-    // ── Grid renderer ─────────────────────────────────────────
 
     function renderInstaGrid(posts) {
       const limited = posts.slice(0, INSTA_POST_COUNT);
-      if (limited.length === 0) { showInstaFallback('empty'); return; }
+      if (!limited.length) {
+        showInstaFallback();
+        return;
+      }
 
-      // Store globally so modal can look up full post data by index
       window._instaPosts = limited;
 
       const items = limited.map((post, idx) => {
-        const imgUrl  = buildMediaUrl(post);
+        const imgUrl = buildMediaUrl(post);
         const caption = truncateCaption(post.prunedCaption || post.caption);
         const isVideo = post.mediaType === 'VIDEO' || post.isReel;
         const isAlbum = post.mediaType === 'CAROUSEL_ALBUM';
-        const label   = isVideo ? 'Watch Reel' : isAlbum ? 'View Album' : 'View Post';
 
         return `
-          <a class="insta-post"
-             href="${post.permalink}"
-             data-idx="${idx}"
-             aria-label="${label}: ${caption || 'Instagram post'}">
+          <a class="insta-post" href="${post.permalink}" data-idx="${idx}" aria-label="Open Instagram post">
             <img src="${imgUrl}" alt="${caption || 'Instagram post'}" loading="lazy" />
-            <span class="insta-watch-label">${label}</span>
-            ${isVideo ? `<div class="insta-play-btn"><i class="fa-solid fa-play"></i></div>` : ''}
-            ${isAlbum ? `<div class="insta-play-btn"><i class="fa-solid fa-images"></i></div>` : ''}
-            ${caption  ? `<p class="insta-post-caption">${caption}</p>` : ''}
+            ${isVideo ? '<span class="insta-play-btn"><i class="fa-solid fa-play"></i></span>' : ''}
+            ${isAlbum ? '<span class="insta-play-btn"><i class="fa-solid fa-images"></i></span>' : ''}
+            ${caption ? `<p class="insta-post-caption">${caption}</p>` : ''}
           </a>`;
       }).join('');
 
       instaContent.innerHTML = `
         <div class="insta-grid" id="instaGrid">${items}</div>
-        <div class="insta-follow-bar">
-          <a class="btn-follow-insta"
-             href="https://www.instagram.com/goodplayingwithyou/"
-             target="_blank">
+        <div class="follow-bar">
+          <a class="btn btn-follow-insta" href="https://www.instagram.com/goodplayingwithyou/" target="_blank" rel="noopener">
             <i class="fa-brands fa-instagram"></i> Follow on Instagram
           </a>
         </div>`;
 
-      // Intercept all grid clicks — open modal instead of navigating away
-      document.getElementById('instaGrid').addEventListener('click', e => {
+      document.getElementById('instaGrid').addEventListener('click', (e) => {
         const postEl = e.target.closest('.insta-post');
         if (!postEl) return;
         e.preventDefault();
-        openInstaModal(window._instaPosts[parseInt(postEl.dataset.idx, 10)]);
+        const idx = parseInt(postEl.dataset.idx, 10);
+        openInstaModal(window._instaPosts[idx]);
       });
     }
 
-    // ── Fetch feed ────────────────────────────────────────────
-
     async function loadInstaFeed() {
       if (!BEHOLD_FEED_URL || !BEHOLD_FEED_URL.trim()) {
-        showInstaFallback('not configured');
+        showInstaFallback();
         return;
       }
+
       showInstaLoading();
+
       try {
         const res = await fetch(BEHOLD_FEED_URL);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        // Behold returns { username, posts:[...] } — not a bare array
         const posts = Array.isArray(data) ? data : (data.posts || []);
-        if (!posts.length) throw new Error('No posts');
         renderInstaGrid(posts);
       } catch (err) {
-        console.warn('Instagram feed failed:', err.message);
-        showInstaFallback('error');
+        console.warn('Instagram feed failed:', err);
+        showInstaFallback();
       }
     }
 
     loadInstaFeed();
 
-    // ══════════════════════════════════════════════════════════
-    // MODAL SYSTEM
-    // Videos → Instagram official embed (real playback)
-    // Images → full-size lightbox
-    // ══════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
+    // INSTAGRAM MODAL
+    // ════════════════════════════════════════════════════════════
 
     let embedJsLoaded = false;
 
-    function loadEmbedJs() {
-      return new Promise(resolve => {
-        // Already loaded
-        if (window.instgrm || embedJsLoaded) { resolve(); return; }
+    function loadInstagramEmbedJs() {
+      return new Promise((resolve) => {
+        if (window.instgrm || embedJsLoaded) {
+          resolve();
+          return;
+        }
+
         const s = document.createElement('script');
         s.src = 'https://www.instagram.com/embed.js';
         s.async = true;
-        s.onload  = () => { embedJsLoaded = true; resolve(); };
-        s.onerror = () => resolve(); // fail silently, fallback link shown
+        s.onload = () => {
+          embedJsLoaded = true;
+          resolve();
+        };
+        s.onerror = () => resolve();
         document.head.appendChild(s);
       });
     }
 
     function openInstaModal(post) {
+      if (!post) return;
+
       const isVideo = post.mediaType === 'VIDEO' || post.isReel;
-      const caption = truncateCaption(post.prunedCaption || post.caption, 120);
-      const igLink  = post.permalink;
+      const caption = truncateCaption(post.prunedCaption || post.caption, 130);
+      const igLink = post.permalink;
 
       const backdrop = document.createElement('div');
       backdrop.className = 'modal-backdrop';
       backdrop.id = 'instaModal';
 
       if (isVideo) {
-        // ── Video: Instagram official embed ─────────────────
         backdrop.innerHTML = `
           <div class="modal-inner">
             <button class="modal-close" aria-label="Close">&times;</button>
             <div class="modal-embed" id="modalEmbed">
-              <div class="modal-loading">
-                <i class="fa-solid fa-circle-notch"></i>
-                Loading reel…
-              </div>
+              <div class="modal-loading"><i class="fa-solid fa-circle-notch"></i> Loading reel…</div>
             </div>
             <div class="modal-footer">
               ${caption ? `<p class="modal-caption">${caption}</p>` : ''}
@@ -825,27 +1256,24 @@
 
         document.body.appendChild(backdrop);
 
-        // Load embed.js then inject the official Instagram embed blockquote
-        loadEmbedJs().then(() => {
+        loadInstagramEmbedJs().then(() => {
           const wrap = document.getElementById('modalEmbed');
           if (!wrap) return;
+
           wrap.innerHTML = `
             <blockquote class="instagram-media"
               data-instgrm-permalink="${igLink}"
               data-instgrm-version="14"
               style="margin:0;min-width:326px;max-width:100%;width:calc(100% - 2px);">
             </blockquote>`;
-          // Tell Instagram's script to render the new embed
+
           if (window.instgrm?.Embeds?.process) {
             window.instgrm.Embeds.process();
           }
         });
-
       } else {
-        // ── Image: simple lightbox ──────────────────────────
-        const imgUrl = post.sizes?.large?.mediaUrl
-                    || post.sizes?.medium?.mediaUrl
-                    || buildMediaUrl(post);
+        const imgUrl = post.sizes?.large?.mediaUrl || post.sizes?.medium?.mediaUrl || buildMediaUrl(post);
+
         backdrop.innerHTML = `
           <div class="modal-inner">
             <button class="modal-close" aria-label="Close">&times;</button>
@@ -863,34 +1291,28 @@
         document.body.appendChild(backdrop);
       }
 
-      // Lock scroll
       document.body.style.overflow = 'hidden';
 
-      // Close on backdrop click
-      backdrop.addEventListener('click', e => {
+      backdrop.addEventListener('click', (e) => {
         if (e.target === backdrop) closeInstaModal();
       });
 
-      // Close on × button
       backdrop.querySelector('.modal-close').addEventListener('click', closeInstaModal);
     }
 
     function closeInstaModal() {
-      const m = document.getElementById('instaModal');
-      if (m) { m.remove(); document.body.style.overflow = ''; }
+      const modal = document.getElementById('instaModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
     }
 
-    // ESC key closes modal
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeInstaModal();
     });
 
-    // ══════════════════════════════════════════════════════════
-    // X / TWITTER TIMELINE EMBED
-    // Uses twttr.widgets.createTimeline (programmatic API) —
-    // more reliable than the declarative anchor approach.
-    // Falls back to a follow card after 10s if blocked/throttled.
-    // ══════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════
+    // X / TWITTER — ATTEMPT EMBED, FALL BACK CLEANLY
+    // ════════════════════════════════════════════════════════════
 
     (function initXFeed() {
       const wrap = document.getElementById('xFeedWrap');
@@ -902,16 +1324,12 @@
         if (settled) return;
         settled = true;
         wrap.innerHTML = `
-          <div class="x-fallback visible">
-            <div class="x-fallback-icon">
-              <i class="fa-brands fa-x-twitter"></i>
-            </div>
-            <h3>Follow Us on X</h3>
-            <p>We tweet gaming takes, episode drops, and hot gaming news at @goodplaywithyou.</p>
-            <a class="btn-follow-x"
-               href="https://x.com/goodplaywithyou"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-x-twitter"></i> Follow @goodplaywithyou
+          <div class="x-fallback">
+            <div class="fallback-icon"><i class="fa-brands fa-x-twitter"></i></div>
+            <h3 class="fallback-title">Follow Us on X</h3>
+            <p>Quick gaming news reactions, episode drops, hot takes, and the occasional chaos between Friday episodes.</p>
+            <a class="btn btn-follow-x" href="https://x.com/goodplaywithyou" target="_blank" rel="noopener">
+              <i class="fa-brands fa-x-twitter"></i> Follow on X
             </a>
           </div>`;
       }
@@ -922,64 +1340,64 @@
           return;
         }
 
-        // Clear the loading spinner, give twttr a clean target div
         wrap.innerHTML = '<div id="xTimelineTarget"></div>';
         const target = document.getElementById('xTimelineTarget');
 
-        // Watch for an iframe appearing — that means it worked
         const observer = new MutationObserver(() => {
           if (target.querySelector('iframe') && !settled) {
             settled = true;
             observer.disconnect();
           }
         });
+
         observer.observe(target, { childList: true, subtree: true });
 
-        // Programmatic API — more reliable than the anchor approach
         window.twttr.widgets.createTimeline(
           { sourceType: 'profile', screenName: 'goodplaywithyou' },
           target,
           {
-            theme:       'dark',
-            chrome:      'noheader nofooter noborders transparent',
-            dnt:         true,
-            tweetLimit:  6
+            theme: 'dark',
+            chrome: 'noheader nofooter noborders transparent',
+            dnt: true,
+            tweetLimit: 4,
+            height: 420
           }
-        ).then(el => {
+        ).then((el) => {
           observer.disconnect();
           if (el && !settled) {
             settled = true;
           } else if (!el && !settled) {
-            // Promise resolved but returned nothing = blocked
             showXFallback();
           }
-        }).catch(() => showXFallback());
+        }).catch(showXFallback);
       }
 
-      // Load widgets.js dynamically
-      const script    = document.createElement('script');
-      script.src      = 'https://platform.twitter.com/widgets.js';
-      script.async    = true;
-      script.charset  = 'utf-8';
-      script.onload   = () => renderTimeline();
-      script.onerror  = () => showXFallback();
+      const script = document.createElement('script');
+      script.src = 'https://platform.twitter.com/widgets.js';
+      script.async = true;
+      script.charset = 'utf-8';
+      script.onload = renderTimeline;
+      script.onerror = showXFallback;
       document.head.appendChild(script);
 
-      // Hard timeout — 10s covers slow connections;
-      // if X is actively blocking, nothing will load regardless
-      setTimeout(() => { if (!settled) showXFallback(); }, 10000);
+      setTimeout(() => {
+        if (!settled) showXFallback();
+      }, 6500);
     })();
 
-    // ── Hamburger menu ────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    // MOBILE NAV
+    // ════════════════════════════════════════════════════════════
+
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
-    if (hamburger) {
+
+    if (hamburger && mobileNav) {
       hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        mobileNav.classList.toggle('open');
+        const isOpen = mobileNav.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(isOpen));
       });
     }
   </script>
-
 </body>
 </html>
