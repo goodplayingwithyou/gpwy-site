@@ -443,8 +443,13 @@
     }
 
     function buildMediaUrl(post) {
-      // Reels and videos use thumbnailUrl; images use mediaUrl
-      return post.thumbnailUrl || post.mediaUrl || '';
+      // Prefer Behold's own CDN (sizes.medium) — stable, no expiry, no CORS issues.
+      // Fall back to Instagram CDN thumbnailUrl only if Behold sizes aren't present.
+      return post.sizes?.medium?.mediaUrl
+          || post.sizes?.small?.mediaUrl
+          || post.thumbnailUrl
+          || post.mediaUrl
+          || '';
     }
 
     function buildTypeIcon(post) {
@@ -512,8 +517,10 @@
       try {
         const res = await fetch(BEHOLD_FEED_URL);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const posts = await res.json();
-        if (!Array.isArray(posts)) throw new Error('Unexpected response format');
+        const data = await res.json();
+        // Behold returns { username, posts: [...] } — not a bare array
+        const posts = Array.isArray(data) ? data : (data.posts || []);
+        if (!posts.length) throw new Error('No posts returned');
         renderInstaGrid(posts);
       } catch (err) {
         console.warn('Instagram feed failed:', err.message);
