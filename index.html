@@ -71,7 +71,81 @@
       min-height: 500px;
       max-height: 580px;
       overflow: hidden;
+      position: relative;
     }
+
+    /* The actual embedded timeline iframe */
+    .twitter-feed-wrap iframe { border-radius: 0; }
+
+    /* Fallback card — shown if embed times out */
+    .x-fallback {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 24px;
+      gap: 16px;
+    }
+    .x-fallback.visible { display: flex; }
+    .x-fallback-icon {
+      width: 64px;
+      height: 64px;
+      background: #000;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .x-fallback h3 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin: 0;
+    }
+    .x-fallback p {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.55;
+      max-width: 280px;
+      margin: 0;
+    }
+    .btn-follow-x {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      background: #000;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-follow-x:hover { background: #1a1a1a; transform: translateY(-1px); }
+
+    /* Loading state */
+    .x-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px 20px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.35);
+    }
+    .x-loading i { animation: spin 1s linear infinite; }
 
     /* ══════════════════════════════════════════════════════
        INSTAGRAM FEED (Behold JSON)
@@ -423,14 +497,11 @@
         <i class="fa-brands fa-x-twitter"></i>
         <span>@goodplaywithyou</span>
       </div>
-      <div class="twitter-feed-wrap">
-        <a class="twitter-timeline"
-           data-theme="dark"
-           data-chrome="noheader nofooter noborders transparent"
-           data-tweet-limit="6"
-           href="https://twitter.com/goodplaywithyou">
-          Loading tweets...
-        </a>
+      <div class="twitter-feed-wrap" id="xFeedWrap">
+        <!-- JS replaces this with the embed or fallback -->
+        <div class="x-loading" id="xLoading">
+          <i class="fa-solid fa-circle-notch"></i> Loading posts…
+        </div>
       </div>
     </div>
 
@@ -490,8 +561,7 @@
     <div class="footer-bottom">© 2026 Good Playing With You. All rights reserved.</div>
   </footer>
 
-  <!-- Twitter/X Widget -->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <!-- X/Twitter widget loaded dynamically by xFeed.js below -->
 
   <script>
     // ════════════════════════════════════════════════════════════
@@ -754,6 +824,78 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeInstaModal();
     });
+
+    // ══════════════════════════════════════════════════════════
+    // X / TWITTER TIMELINE EMBED
+    // Uses official publish.x.com embed — no API key needed.
+    // Falls back to a follow card after 8 seconds if blocked.
+    // ══════════════════════════════════════════════════════════
+
+    (function initXFeed() {
+      const wrap    = document.getElementById('xFeedWrap');
+      const loading = document.getElementById('xLoading');
+      if (!wrap) return;
+
+      let settled = false;
+
+      function showXFallback() {
+        if (settled) return;
+        settled = true;
+        wrap.innerHTML = `
+          <div class="x-fallback visible">
+            <div class="x-fallback-icon">
+              <i class="fa-brands fa-x-twitter"></i>
+            </div>
+            <h3>Follow Us on X</h3>
+            <p>We tweet gaming takes, episode drops, and hot gaming news at @goodplaywithyou.</p>
+            <a class="btn-follow-x"
+               href="https://x.com/goodplaywithyou"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-x-twitter"></i> Follow @goodplaywithyou
+            </a>
+          </div>`;
+      }
+
+      // Inject the official timeline anchor
+      const anchor = document.createElement('a');
+      anchor.className        = 'twitter-timeline';
+      anchor.href             = 'https://twitter.com/goodplaywithyou';
+      anchor.dataset.theme    = 'dark';
+      anchor.dataset.chrome   = 'noheader nofooter noborders transparent';
+      anchor.dataset.tweetLimit = '6';
+      anchor.dataset.dnt      = 'true';
+      anchor.textContent      = 'Tweets by @goodplaywithyou';
+      wrap.appendChild(anchor);
+
+      // Load widgets.js dynamically
+      const script = document.createElement('script');
+      script.src   = 'https://platform.twitter.com/widgets.js';
+      script.async = true;
+      script.charset = 'utf-8';
+
+      script.onload = () => {
+        if (!window.twttr?.widgets) { showXFallback(); return; }
+
+        // Ask the widget to render the anchor we injected
+        window.twttr.widgets.load(wrap);
+
+        // twttr fires 'rendered' once the iframe appears
+        window.twttr.events.bind('rendered', widget => {
+          if (!settled) {
+            settled = true;
+            if (loading) loading.remove();
+          }
+        });
+      };
+
+      script.onerror = () => showXFallback();
+      document.head.appendChild(script);
+
+      // Hard timeout — if nothing renders in 8 seconds, show fallback
+      setTimeout(() => {
+        if (!settled) showXFallback();
+      }, 8000);
+    })();
 
     // ── Hamburger menu ────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
